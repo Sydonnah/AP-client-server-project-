@@ -2,6 +2,7 @@
 A TCP/IP socket-based Client/Server architecture application 
 
 Group Members:
+Carlisha Nicholson 
 
 
 
