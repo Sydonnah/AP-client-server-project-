@@ -3,8 +3,7 @@ A TCP/IP socket-based Client/Server architecture application
 
 Group Members:
 
-Chadan Huggup
-
+Chadan Huggup\n
 Carlisha Nicholson 
 
 
