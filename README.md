@@ -5,7 +5,7 @@ Group Members:
 
 Chadan Huggup
 Carlisha Nicholson 
-
+Joel Grant
 
 
 Responsibilities:
