@@ -6,6 +6,8 @@ Group Members:
 Chadan Huggup
 Carlisha Nicholson 
 Joel Grant
+Ackeem Pratt
+Kedejra
 
 
 Responsibilities:
