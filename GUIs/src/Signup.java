@@ -35,17 +35,17 @@ public class Signup extends JFrame implements ActionListener {
 	private JLabel lblEmail;
 
 	public Signup() {
-		fnpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		lnpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		Emailpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		Pwordpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		RPwordpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		bpanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		fnpanel = new JPanel();
+		lnpanel = new JPanel();
+		Emailpanel = new JPanel();
+		Pwordpanel = new JPanel();
+		RPwordpanel = new JPanel();
+		bpanel = new JPanel();
 		Fname = new JTextField(20);
 		Lname = new JTextField(20);
 		Email = new JTextField(20);
-		Pword = new JPasswordField(10);
-		RPword = new JPasswordField(10);
+		Pword = new JPasswordField(20);
+		RPword = new JPasswordField(20);
 		this.button = new JButton("Submit");
 		this.lblFname = new JLabel("First Name: ");
 		this.lblLname = new JLabel("Last Name: ");
@@ -54,26 +54,10 @@ public class Signup extends JFrame implements ActionListener {
 		this.lblRPword = new JLabel("Re-Type Password: ");
 		
 		Fname.setFont(new Font("Times New Roman",Font.PLAIN,14));
-		Fname.setBounds(120,50,150,30);
-		
 		Lname.setFont(new Font("Times New Roman",Font.PLAIN,14));
-		Lname.setBounds(120, 100, 150, 30);
-		
 		Email.setFont(new Font("Times New Roman",Font.PLAIN,14));
-		Email.setBounds(150,150,250,30);
-		
 		Pword.setFont(new Font("Times New Roman",Font.PLAIN,14));
-		Pword.setBounds(120,200,150,30);
-		
 		RPword.setFont(new Font("Times New Roman",Font.PLAIN,14));
-		RPword.setBounds(170, 250,150, 30);
-		
-		lblFname.setBounds(50, 50, 150, 30);
-		lblLname.setBounds(100, 100, 150, 30);
-		lblEmail.setBounds(50, 150, 150, 30);
-		lblPword.setBounds(50, 200, 150, 30);
-		lblRPword.setBounds(50, 250, 150, 30);
-		
 		
 		fnpanel.setSize(new Dimension(450,30));
 		fnpanel.add(lblFname);
@@ -106,7 +90,7 @@ public class Signup extends JFrame implements ActionListener {
 		
 		
 		setTitle("Sign Up Section");
-		setSize(new Dimension(500,650));
+		setSize(new Dimension(450,500));
 		setResizable(false);
 		setVisible(true);
 		setLayout(new FlowLayout(FlowLayout.LEADING));
