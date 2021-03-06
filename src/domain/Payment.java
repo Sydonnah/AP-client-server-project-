@@ -39,8 +39,7 @@ public class Payment {
 			String out;
 			out=("\n********************\nCustomer: " + getCustomer() + "\n");
 			out+=("Amount: " + getAmount() + "\n");
-			out+=("Date of payment: " + getPaymentDate().getDay() + "/"
-			+ getPaymentDate().getMonth() + "/" + getPaymentDate().getYear() + "\n********************\n");
+			out+=("Date of payment: " + getPaymentDate() + "\n********************\n");
 			return out;
 		}
 }
