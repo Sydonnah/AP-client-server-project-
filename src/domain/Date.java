@@ -39,4 +39,14 @@ public class Date {
 	public void setYear(int year) {
 		this.year = year;
 	}
+	
+	//Print method
+	//This will reduce work by not having to print day, month and year for all the other classes.
+	//just call getDate function/getter
+	public String toString() {
+		String out;
+		out=(getDay() + "/" + getMonth() + "/" + getYear());
+		return out;
+	}
+
 }
