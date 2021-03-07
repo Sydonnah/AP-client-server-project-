@@ -11,3 +11,5 @@ Kedejra Cameron
 
 
 Responsibilities:
+
+Carlisha Nicholson & Kedejra Cameron - GUI
