@@ -73,7 +73,7 @@ public class LogIn extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				// read info from file and validate
 				
 			}
 			
@@ -88,17 +88,12 @@ public class LogIn extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		setLayout(new FlowLayout(FlowLayout.LEADING));
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}
-	
-	
 	
 //	public static void main (String []args) {
 //		new LogIn();
 //	}
-
-
-
 
 }

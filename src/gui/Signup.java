@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class Signup extends JFrame implements ActionListener {
+public class Signup extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel fnpanel;
@@ -86,6 +86,15 @@ public class Signup extends JFrame implements ActionListener {
 		add(RPwordpanel);
 		
 		bpanel.setSize(new Dimension(450,30));
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// insert write to file method
+				
+			}
+			
+		});
 		bpanel.add(button);
 		add(bpanel);
 		
@@ -95,19 +104,14 @@ public class Signup extends JFrame implements ActionListener {
 		setResizable(false);
 		setVisible(true);
 		setLayout(new FlowLayout(FlowLayout.LEADING));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	public static void main (String []args) {
-		new Signup();
-	}
+//	public static void main (String []args) {
+//		new Signup();
+//	}
 
 
 }
