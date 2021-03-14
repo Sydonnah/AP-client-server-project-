@@ -99,7 +99,7 @@ public class Signup extends JFrame{
 		add(bpanel);
 		
 		
-		setTitle("Sign Up Section");
+		setTitle("Customer Sign Up Section");
 		setSize(new Dimension(450,500));
 		setResizable(false);
 		setVisible(true);
@@ -107,12 +107,6 @@ public class Signup extends JFrame{
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}
-	
-
-//	public static void main (String []args) {
-//		new Signup();
-//	}
-
 
 }
 

@@ -13,35 +13,29 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class LogIn extends JFrame {
-	
+public class Emp_LogIn extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel urnamepanel;
 	private JPanel pwordpanel;
-	private JPanel signupPanel;
 	private JPanel loginpanel;
 	private JLabel lblurname;
 	private JLabel lblpword; 
 	private JTextField urname;
 	private JPasswordField pword;
-	private JButton Signup;
 	private JButton Login;
 	
-	public LogIn() {
+	public Emp_LogIn() {
 		urnamepanel = new JPanel();
 		pwordpanel = new JPanel();
-		signupPanel = new JPanel();
+		new JPanel();
 		loginpanel = new JPanel();
-		this.lblurname = new JLabel("Username: ");
+		this.lblurname = new JLabel("ID: ");
 		this.lblpword = new JLabel("Password: ");
 		urname = new JTextField(20);
 		pword = new JPasswordField(20);
-		this.Signup = new JButton("SIGN UP");
 		this.Login = new JButton("LOGIN");
 		
 		urname.setFont(new Font("Times New Roman",Font.PLAIN,14));
-		
-		
 		pword.setFont(new Font("Times New Roman",Font.PLAIN,14));
 	
 		
@@ -54,18 +48,6 @@ public class LogIn extends JFrame {
 		pwordpanel.add(lblpword);
 		pwordpanel.add(pword);
 		add(pwordpanel);
-		
-		signupPanel.setSize(new Dimension(450,30));
-		signupPanel.add(Signup);
-		Signup.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new Signup();
-			}
-			
-		});
-		add(signupPanel);
 		
 		loginpanel.setSize(new Dimension(450,30));
 		loginpanel.add(Login);
@@ -83,7 +65,7 @@ public class LogIn extends JFrame {
 		
 		
 		
-		setTitle("Log In Section");
+		setTitle("Employee Log In Section");
 		setSize(new Dimension(400,450));
 		setResizable(false);
 		setVisible(true);
@@ -91,9 +73,6 @@ public class LogIn extends JFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}
-	
-//	public static void main (String []args) {
-//		new LogIn();
-//	}
 
+	
 }
