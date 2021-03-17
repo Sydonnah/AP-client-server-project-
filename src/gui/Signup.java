@@ -5,10 +5,12 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -33,6 +35,12 @@ public class Signup extends JFrame{
 	private JLabel lblPword;
 	private JLabel lblRPword;
 	private JLabel lblEmail;
+	
+	private String fname;
+	private String lname;
+	private String email;
+	private char[] pword;
+	private char[] rpword;
 
 	public Signup() {
 		fnpanel = new JPanel();
@@ -90,8 +98,27 @@ public class Signup extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// insert write to file method
+				fname = Fname.getText();
+				lname = Lname.getText();
+				email = Email.getText();
+				pword = Pword.getPassword();
+				rpword = RPword.getPassword();
 				
+				if(Fname.getText().length() == 0) {
+					JOptionPane.showMessageDialog(lblFname, "Must enter a First Name");
+				}else if(Lname.getText().length() == 0){
+					JOptionPane.showMessageDialog(lblLname, "Must enter a Last Name");
+				}else if(Email.getText().length() == 0){
+					JOptionPane.showMessageDialog(lblEmail, "Must enter an Email Address");
+				}else if(Pword.getPassword().length == 0) {
+					JOptionPane.showMessageDialog(lblPword, "Must enter a password");
+				}else if(Pword.getPassword().length < 5) {
+					JOptionPane.showMessageDialog(lblPword, "Password must be greater than 5 characters long");
+				}else if(Arrays.equals(pword, rpword) == false){
+					JOptionPane.showMessageDialog(RPword, "Password mismatch, please try again");
+				}else if(button.isSelected()){
+				//insert database code
+				}
 			}
 			
 		});
@@ -107,6 +134,56 @@ public class Signup extends JFrame{
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}
+
+	public Signup(String fname, String lname, String email, char[] pword, char[] rpword) {
+		this.fname = fname;
+		this.lname = lname;
+		this.email = email;
+		this.pword = pword;
+		this.rpword = rpword;
+	}
+
+	public String getFname() {
+		return fname;
+	}
+
+	public String getLname() {
+		return lname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public char[] getPword() {
+		return pword;
+	}
+
+	public char[] getRpword() {
+		return rpword;
+	}
+
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPword(char[] pword) {
+		this.pword = pword;
+	}
+
+	public void setRpword(char[] rpword) {
+		this.rpword = rpword;
+	}
+	
+	
 
 }
 
