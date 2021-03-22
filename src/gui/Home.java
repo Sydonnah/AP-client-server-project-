@@ -96,8 +96,7 @@ public class Home extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new Cust_LogIn();
-				
+				new Cust_LogIn();		
 			}
 			
 		});

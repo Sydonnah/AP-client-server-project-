@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -23,6 +24,9 @@ public class Emp_LogIn extends JFrame{
 	private JTextField urname;
 	private JPasswordField pword;
 	private JButton Login;
+	
+	private String Username;
+	private char[] password;
 	
 	public Emp_LogIn() {
 		urnamepanel = new JPanel();
@@ -55,6 +59,14 @@ public class Emp_LogIn extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Username = urname.getText();
+				password = pword.getPassword();
+				
+				if (urname.getText().length() == 0 ) {
+					JOptionPane.showMessageDialog(lblurname, "Field can not be empty");
+				} else if (pword.getPassword().length == 0) {
+					JOptionPane.showMessageDialog(lblpword, "Field can not be empty");
+				}
 				// read info from file and validate
 				
 			}
@@ -73,6 +85,29 @@ public class Emp_LogIn extends JFrame{
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}
+
+	public Emp_LogIn(String username, char[] password) {
+		Username = username;
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return Username;
+	}
+
+	public char[] getPassword() {
+		return password;
+	}
+
+	public void setUsername(String username) {
+		Username = username;
+	}
+
+	public void setPassword(char[] password) {
+		this.password = password;
+	}
+	
+	
 
 	
 }

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -26,6 +27,10 @@ public class Cust_LogIn extends JFrame {
 	private JPasswordField pword;
 	private JButton Signup;
 	private JButton Login;
+	
+	private String Username;
+	private char[] password;
+	
 	
 	public Cust_LogIn() {
 		urnamepanel = new JPanel();
@@ -71,8 +76,17 @@ public class Cust_LogIn extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// read info from file and validate
+				Username = urname.getText();
+				password = pword.getPassword();
 				
+				if (urname.getText().length() == 0 ) {
+					JOptionPane.showMessageDialog(lblurname, "Field can not be empty");
+				} else if (pword.getPassword().length == 0) {
+					JOptionPane.showMessageDialog(lblpword, "Field can not be empty");
+				}
+				// read info from database and validate
+				new Cust_Dashboard();
+		
 			}
 			
 		});
@@ -89,6 +103,33 @@ public class Cust_LogIn extends JFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}
+
+
+	public Cust_LogIn(String username, char[] password) {
+		Username = username;
+		this.password = password;
+	}
+
+
+	public String getUsername() {
+		return Username;
+	}
+
+
+	public char[] getPassword() {
+		return password;
+	}
+
+
+	public void setUsername(String username) {
+		Username = username;
+	}
+
+
+	public void setPassword(char[] password) {
+		this.password = password;
+	}
+	
 	
 //	public static void main (String []args) {
 //		new LogIn();
