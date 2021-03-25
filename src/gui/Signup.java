@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,12 +22,14 @@ public class Signup extends JFrame{
 	private JPanel Pwordpanel;
 	private JPanel RPwordpanel;
 	private JPanel bpanel;
+	private JPanel backpanel;
 	private JTextField Fname;
 	private JTextField Lname;
 	private JTextField Email;
 	private JPasswordField Pword;
 	private JPasswordField RPword;
 	private JButton button;
+	private JButton backbutton;
 	private JLabel lblFname;
 	private JLabel lblLname;
 	private JLabel lblPword;
@@ -39,8 +39,9 @@ public class Signup extends JFrame{
 	private String fname;
 	private String lname;
 	private String email;
-	private char[] pword;
-	private char[] rpword;
+	private String pword;
+	private String rpword;
+	protected Cust_LogIn cl;
 
 	public Signup() {
 		fnpanel = new JPanel();
@@ -49,12 +50,14 @@ public class Signup extends JFrame{
 		Pwordpanel = new JPanel();
 		RPwordpanel = new JPanel();
 		bpanel = new JPanel();
+		backpanel = new JPanel();
 		Fname = new JTextField(20);
 		Lname = new JTextField(20);
 		Email = new JTextField(20);
 		Pword = new JPasswordField(20);
 		RPword = new JPasswordField(20);
 		this.button = new JButton("Submit");
+		this.backbutton = new JButton("Go Back");
 		this.lblFname = new JLabel("First Name: ");
 		this.lblLname = new JLabel("Last Name: ");
 		this.lblEmail = new JLabel("Email Address: ");
@@ -68,9 +71,24 @@ public class Signup extends JFrame{
 		RPword.setFont(new Font("Times New Roman",Font.PLAIN,14));
 		
 		
+		backpanel.setSize(new Dimension(450,30));
+		backbutton.setPreferredSize(new Dimension(150,30));
+		backpanel.add(backbutton);
+		backbutton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				dispose();
+				cl = new Cust_LogIn();
+				
+			}
+		});
+		add(backpanel);
+			
 		fnpanel.setSize(new Dimension(450,30));
 		fnpanel.add(lblFname);
-		fnpanel.add(Fname);
+		fnpanel.add(Fname);	
 		add(fnpanel);
 		
 		lnpanel.setSize(new Dimension(450,30));
@@ -96,25 +114,26 @@ public class Signup extends JFrame{
 		bpanel.setSize(new Dimension(450,30));
 		button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fname = Fname.getText();
 				lname = Lname.getText();
 				email = Email.getText();
-				pword = Pword.getPassword();
-				rpword = RPword.getPassword();
+				pword = Pword.getText();
+				rpword = RPword.getText();
 				
-				if(Fname.getText().length() == 0) {
+				if(Fname.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(lblFname, "Must enter a First Name");
-				}else if(Lname.getText().length() == 0){
+				}else if(Lname.getText().isEmpty()){
 					JOptionPane.showMessageDialog(lblLname, "Must enter a Last Name");
-				}else if(Email.getText().length() == 0){
+				}else if(Email.getText().isEmpty()){
 					JOptionPane.showMessageDialog(lblEmail, "Must enter an Email Address");
-				}else if(Pword.getPassword().length == 0) {
+				}else if(Pword.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(lblPword, "Must enter a password");
-				}else if(Pword.getPassword().length < 5) {
+				}else if(Pword.getText().length() < 5) {
 					JOptionPane.showMessageDialog(lblPword, "Password must be greater than 5 characters long");
-				}else if(Arrays.equals(pword, rpword) == false){
+				}else if((Pword.getText().equals(RPword.getText())) == false){
 					JOptionPane.showMessageDialog(RPword, "Password mismatch, please try again");
 				}else if(button.isSelected()){
 				//insert database code
@@ -135,7 +154,7 @@ public class Signup extends JFrame{
 		
 	}
 
-	public Signup(String fname, String lname, String email, char[] pword, char[] rpword) {
+	public Signup(String fname, String lname, String email, String pword, String rpword) {
 		this.fname = fname;
 		this.lname = lname;
 		this.email = email;
@@ -155,11 +174,11 @@ public class Signup extends JFrame{
 		return email;
 	}
 
-	public char[] getPword() {
+	public String getPword() {
 		return pword;
 	}
 
-	public char[] getRpword() {
+	public String getRpword() {
 		return rpword;
 	}
 
@@ -175,15 +194,16 @@ public class Signup extends JFrame{
 		this.email = email;
 	}
 
-	public void setPword(char[] pword) {
+	public void setPword(String pword) {
 		this.pword = pword;
 	}
 
-	public void setRpword(char[] rpword) {
+	public void setRpword(String rpword) {
 		this.rpword = rpword;
 	}
 	
 	
-
+	  //public static void main (String args[]) { new Signup(); }
+	 
 }
 
