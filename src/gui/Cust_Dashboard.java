@@ -14,6 +14,7 @@ import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.GridLayout;
 import javax.swing.border.LineBorder;
 
@@ -22,7 +23,7 @@ public class Cust_Dashboard extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	
-	public Cust_Dashboard() {
+	public Cust_Dashboard() throws IOException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -71,7 +72,12 @@ public class Cust_Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				Enquiry en = new Enquiry();
+				try {
+					Enquiry en = new Enquiry();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -89,7 +95,12 @@ public class Cust_Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				Status stat = new Status();
+				try {
+					Status stat = new Status();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -107,7 +118,12 @@ public class Cust_Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				Enquiry_History eh = new Enquiry_History();
+				try {
+					Enquiry_History eh = new Enquiry_History();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -125,7 +141,12 @@ public class Cust_Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				Payment_History ph = new Payment_History();
+				try {
+					Payment_History ph = new Payment_History();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -143,7 +164,12 @@ public class Cust_Dashboard extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					dispose();
-					Cust_LogIn cl = new Cust_LogIn();
+					try {
+						Cust_LogIn cl = new Cust_LogIn();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 			
 			}
 		});

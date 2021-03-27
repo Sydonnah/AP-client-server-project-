@@ -14,6 +14,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
@@ -25,7 +26,7 @@ public class Status extends JFrame {
 	private JTextField acc_owetextField;
 	private JTextField pay_duetextField;
 
-	public Status() {
+	public Status() throws IOException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -64,7 +65,12 @@ public class Status extends JFrame {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Cust_Dashboard cd = new Cust_Dashboard();
+				try {
+					Cust_Dashboard cd = new Cust_Dashboard();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		GoBackButton.setBorder(new LineBorder(Color.BLUE));

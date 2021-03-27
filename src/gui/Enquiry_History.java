@@ -14,6 +14,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -26,7 +27,7 @@ public class Enquiry_History extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTable Enq_his_table;
 	
-	public Enquiry_History() {
+	public Enquiry_History() throws IOException{
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -65,7 +66,12 @@ public class Enquiry_History extends JFrame {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Cust_Dashboard cd = new Cust_Dashboard();
+				try {
+					Cust_Dashboard cd = new Cust_Dashboard();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		BackButton.setBorder(new LineBorder(Color.BLUE));

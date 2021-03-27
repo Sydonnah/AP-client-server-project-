@@ -17,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class Enquiry extends JFrame {
@@ -25,7 +26,7 @@ public class Enquiry extends JFrame {
 	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Enquiry() {
+	public Enquiry() throws IOException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -88,7 +89,12 @@ public class Enquiry extends JFrame {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Cust_Dashboard cd = new Cust_Dashboard();
+				try {
+					Cust_Dashboard cd = new Cust_Dashboard();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		backButton.setPreferredSize(new Dimension(80, 30));

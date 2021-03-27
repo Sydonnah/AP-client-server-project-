@@ -18,13 +18,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 
 public class Home extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
 
-	public Home(){
+	public Home() throws IOException{
 		setVisible(true);
 		setSize(new Dimension(725, 500));
 		setResizable(false);
@@ -97,7 +98,12 @@ public class Home extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new Cust_LogIn();		
+				try {
+					new Cust_LogIn();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}		
 			}
 			
 		});
@@ -113,7 +119,12 @@ public class Home extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new Emp_LogIn();
+				try {
+					new Emp_LogIn();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});

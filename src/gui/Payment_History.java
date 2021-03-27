@@ -17,6 +17,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class Payment_History extends JFrame {
@@ -24,7 +25,7 @@ public class Payment_History extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public Payment_History() {
+	public Payment_History() throws IOException{
 		getContentPane().setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
@@ -64,7 +65,12 @@ public class Payment_History extends JFrame {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Cust_Dashboard cd = new Cust_Dashboard();
+				try {
+					Cust_Dashboard cd = new Cust_Dashboard();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		BackButton.setBorder(new LineBorder(Color.BLUE));

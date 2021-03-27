@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,7 +39,7 @@ public class Cust_LogIn extends JFrame {
 	protected Home h;
 	
 	
-	public Cust_LogIn() {
+	public Cust_LogIn() throws IOException {
 		urnamepanel = new JPanel();
 		pwordpanel = new JPanel();
 		signupPanel = new JPanel();
@@ -64,7 +65,12 @@ public class Cust_LogIn extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				h = new Home();
+				try {
+					h = new Home();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -140,7 +146,12 @@ public class Cust_LogIn extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new Signup();
+				try {
+					new Signup();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -160,7 +171,12 @@ public class Cust_LogIn extends JFrame {
 					JOptionPane.showMessageDialog(Login, "Field can not be empty");
 				} else{
 					dispose();
-					new Cust_Dashboard();
+					try {
+						new Cust_Dashboard();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					;
 				}
 				// read info from database and validate
