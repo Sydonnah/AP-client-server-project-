@@ -15,11 +15,12 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridLayout;
+import javax.swing.border.LineBorder;
 
 public class Cust_Dashboard extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private Cust_LogIn cl;
+
 	
 	public Cust_Dashboard() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
@@ -59,64 +60,72 @@ public class Cust_Dashboard extends JFrame {
 		ContPan.setLayout(new GridLayout(2, 2, 10, 10));
 		
 		JButton Service1Button = new JButton("ENQUIRY");
-		Service1Button.setBackground(Color.BLUE);
+		Service1Button.setBorder(new LineBorder(Color.BLUE));
 		Service1Button.setForeground(Color.BLUE);
 		Service1Button.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		Service1Button.setPreferredSize(new Dimension(100, 50));
 		Service1Button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				dispose();
+				Enquiry en = new Enquiry();
 			}
 			
 		});
 		ContPan.add(Service1Button);
 		
 		JButton Service2Button = new JButton("STATUS");
-		Service2Button.setBackground(Color.BLUE);
+		Service2Button.setBorder(new LineBorder(Color.BLUE));
 		Service2Button.setForeground(Color.BLUE);
 		Service2Button.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		Service2Button.setPreferredSize(new Dimension(100, 50));
 		Service2Button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				dispose();
+				Status stat = new Status();
 			}
 			
 		});
 		ContPan.add(Service2Button);
 		
 		JButton Service3Button = new JButton("ENQUIRY HISTORY");
-		Service3Button.setBackground(Color.BLUE);
+		Service3Button.setBorder(new LineBorder(Color.BLUE));
 		Service3Button.setForeground(Color.BLUE);
 		Service3Button.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		Service3Button.setPreferredSize(new Dimension(100, 50));
 		Service3Button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				dispose();
+				Enquiry_History eh = new Enquiry_History();
 			}
 			
 		});
 		ContPan.add(Service3Button);
 		
 		JButton Service4Button = new JButton("PAYMENT HISTORY");
-		Service4Button.setBackground(Color.BLUE);
+		Service4Button.setBorder(new LineBorder(Color.BLUE));
 		Service4Button.setForeground(Color.BLUE);
 		Service4Button.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		Service4Button.setPreferredSize(new Dimension(100, 50));
 		Service4Button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				dispose();
+				Payment_History ph = new Payment_History();
 			}
 			
 		});
@@ -127,15 +136,18 @@ public class Cust_Dashboard extends JFrame {
 		getContentPane().add(LogOutpan);
 		
 		JButton LogOut = new JButton("Log Out");
+		LogOut.setPreferredSize(new Dimension(75, 35));
+		LogOut.setBorder(new LineBorder(Color.BLUE));
 		LogOut.addActionListener(new ActionListener() {
+			@SuppressWarnings("unused")
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(LogOut.isSelected()) {
 					dispose();
-					cl = new Cust_LogIn();
-				}
+					Cust_LogIn cl = new Cust_LogIn();
+			
 			}
 		});
-		LogOut.setBackground(Color.BLUE);
+		
 		LogOut.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		LogOutpan.add(LogOut);
 	}

@@ -137,6 +137,7 @@ public class Signup extends JFrame{
 					JOptionPane.showMessageDialog(RPword, "Password mismatch, please try again");
 				}else if(button.isSelected()){
 				//insert database code
+					
 				}
 			}
 			
