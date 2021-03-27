@@ -1,11 +1,8 @@
 package gui;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.border.MatteBorder;
@@ -14,19 +11,18 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.Component;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.GridLayout;
+import javax.swing.border.LineBorder;
 
 public class Cust_Dashboard extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private Cust_LogIn cust;
 
+	
 	public Cust_Dashboard() {
-		cust = new Cust_LogIn();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -50,7 +46,7 @@ public class Cust_Dashboard extends JFrame {
 		instrucPanel.setBounds(10, 100, 680, 25);
 		getContentPane().add(instrucPanel);
 		
-		JLabel instrucLabel = new JLabel("WELCOME " + cust.getUsername()+ ", "+ "WHAT SERVICE WOULD YOU LIKE TO ACCESS TODAY?");
+		JLabel instrucLabel = new JLabel("WELCOME " + Cust_LogIn.Username+ ", "+ "WHAT SERVICE WOULD YOU LIKE TO ACCESS TODAY?");
 		instrucLabel.setPreferredSize(new Dimension(600, 24));
 		instrucLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		instrucLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -63,64 +59,96 @@ public class Cust_Dashboard extends JFrame {
 		getContentPane().add(ContPan);
 		ContPan.setLayout(new GridLayout(2, 2, 10, 10));
 		
-		JButton Service1Button = new JButton("Service1");
+		JButton Service1Button = new JButton("ENQUIRY");
+		Service1Button.setBorder(new LineBorder(Color.BLUE));
 		Service1Button.setForeground(Color.BLUE);
 		Service1Button.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		Service1Button.setPreferredSize(new Dimension(100, 50));
 		Service1Button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				dispose();
+				Enquiry en = new Enquiry();
 			}
 			
 		});
 		ContPan.add(Service1Button);
 		
-		JButton Service2Button = new JButton("Service2");
+		JButton Service2Button = new JButton("STATUS");
+		Service2Button.setBorder(new LineBorder(Color.BLUE));
 		Service2Button.setForeground(Color.BLUE);
 		Service2Button.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		Service2Button.setPreferredSize(new Dimension(100, 50));
 		Service2Button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				dispose();
+				Status stat = new Status();
 			}
 			
 		});
 		ContPan.add(Service2Button);
 		
-		JButton Service3Button = new JButton("Service3");
+		JButton Service3Button = new JButton("ENQUIRY HISTORY");
+		Service3Button.setBorder(new LineBorder(Color.BLUE));
 		Service3Button.setForeground(Color.BLUE);
 		Service3Button.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		Service3Button.setPreferredSize(new Dimension(100, 50));
 		Service3Button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				dispose();
+				Enquiry_History eh = new Enquiry_History();
 			}
 			
 		});
 		ContPan.add(Service3Button);
 		
-		JButton Service4Button = new JButton("Service4");
+		JButton Service4Button = new JButton("PAYMENT HISTORY");
+		Service4Button.setBorder(new LineBorder(Color.BLUE));
 		Service4Button.setForeground(Color.BLUE);
 		Service4Button.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		Service4Button.setPreferredSize(new Dimension(100, 50));
 		Service4Button.addActionListener(new ActionListener() {
 
+			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				dispose();
+				Payment_History ph = new Payment_History();
 			}
 			
 		});
 		ContPan.add(Service4Button);
+		
+		JPanel LogOutpan = new JPanel();
+		LogOutpan.setBounds(590, 415, 112, 50);
+		getContentPane().add(LogOutpan);
+		
+		JButton LogOut = new JButton("Log Out");
+		LogOut.setPreferredSize(new Dimension(75, 35));
+		LogOut.setBorder(new LineBorder(Color.BLUE));
+		LogOut.addActionListener(new ActionListener() {
+			@SuppressWarnings("unused")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					dispose();
+					Cust_LogIn cl = new Cust_LogIn();
+			
+			}
+		});
+		
+		LogOut.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		LogOutpan.add(LogOut);
 	}
 }
