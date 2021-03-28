@@ -132,7 +132,7 @@ public class Enquiry extends JFrame {
 							Acc_num = rs.getInt(1);
 						}
 						
-						int Enquiry_ID = 200;
+						int Enquiry_ID = 0;
 						LocalDate Com_Date = LocalDate.now();
 						String add = "INSERT INTO enquiries (Enquiry_ID, Acc_num,com_Type,Com_Description,Com_Date) VALUES ('"
 						+Enquiry_ID+"','"+Acc_num+"','"+CompcomboBox.getSelectedItem().toString()+"','"+DestextArea.getText()+"','"+Com_Date+"')";

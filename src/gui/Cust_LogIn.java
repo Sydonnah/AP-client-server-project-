@@ -165,7 +165,6 @@ public class Cust_LogIn extends JFrame {
 		loginpanel.setSize(new Dimension(450,30));
 		loginpanel.add(Login);
 		Login.addActionListener(new ActionListener() {
-
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
