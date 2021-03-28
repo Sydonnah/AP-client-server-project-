@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
@@ -18,6 +19,13 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
 public class Enquiry extends JFrame {
@@ -110,7 +118,36 @@ public class Enquiry extends JFrame {
 		JButton SubmitButton = new JButton("Submit");
 		SubmitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//send inform to database
+				try {
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
+					if(con == null) {
+						System.out.println("Can not connect to the database");
+						JOptionPane.showMessageDialog(SubmitButton, "Can not make an Enquiry at this Time....please try again later");
+					}else {
+						int Acc_num = 0;
+						String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.Username+"'" ;
+						PreparedStatement pstmt = con.prepareStatement(read);
+						ResultSet rs = pstmt.executeQuery();
+						while(rs.next()) {
+							Acc_num = rs.getInt(1);
+						}
+						
+						int Enquiry_ID = 200;
+						LocalDate Com_Date = LocalDate.now();
+						String add = "INSERT INTO enquiries (Enquiry_ID, Acc_num,com_Type,Com_Description,Com_Date) VALUES ('"
+						+Enquiry_ID+"','"+Acc_num+"','"+CompcomboBox.getSelectedItem().toString()+"','"+DestextArea.getText()+"','"+Com_Date+"')";
+						Statement stmt = con.createStatement();
+						stmt.executeUpdate(add);
+						JOptionPane.showMessageDialog(SubmitButton, "Enquiry Successfully Lodged");
+						dispose();
+						new Cust_Dashboard();
+					}
+				}catch(SQLException sql) {
+					sql.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		SubmitButton.setBorder(new LineBorder(Color.BLUE));

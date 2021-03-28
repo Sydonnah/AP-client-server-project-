@@ -8,6 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -170,18 +175,35 @@ public class Cust_LogIn extends JFrame {
 				if (urname.getText().isEmpty() || pword.getText().isEmpty() ) {
 					JOptionPane.showMessageDialog(Login, "Field can not be empty");
 				} else{
-					dispose();
-					try {
-						new Cust_Dashboard();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					;
-				}
-				// read info from database and validate
-				
-		
+						try {
+							Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
+							if(con == null) {
+								System.out.println("Can not connect to the database");
+							}else {
+								String read = "SELECT * FROM customerinformation WHERE Username = ? and Password = ?" ;
+								PreparedStatement pstmt = con.prepareStatement(read);
+								pstmt.setString(1, urname.getText());
+								pstmt.setString(2, pword.getText());
+								ResultSet rs = pstmt.executeQuery();
+								if(rs.next()) {
+									dispose();
+									try {
+										new Cust_Dashboard();
+									} catch (Exception e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								}else {
+									JOptionPane.showMessageDialog(Login, "Credentials do not match database");
+									urname.setText("");
+									urname.requestFocus();
+									pword.setText("");
+								}
+							}
+						} catch (SQLException sql) {
+							sql.printStackTrace();
+						}
+				}			
 			}
 			
 		});
