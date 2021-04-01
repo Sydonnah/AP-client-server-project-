@@ -8,10 +8,10 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
@@ -38,8 +38,8 @@ public class Enquiry_History extends JFrame {
 	
 	public Enquiry_History() throws IOException{
 		this.eID = 0;
-		this.Com_type = "";
-		this.Com_Description =" ";
+		this.Com_type = " ";
+		this.Com_Description = " ";
 		this.Com_Date ="";
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
@@ -98,9 +98,18 @@ public class Enquiry_History extends JFrame {
 		EnqscrollPane.setBounds(20, 160, 675, 250);
 		getContentPane().add(EnqscrollPane);
 		
-		String column[] = {"Enquiry ID", "Complaint", "Date of Submission"};
+		DefaultTableModel tm = new DefaultTableModel();
+		Enq_his_table = new JTable(tm) {
+			private static final long serialVersionUID = 1L;
+			public boolean editCellAt(int row, int column, java.util.EventObject e) {
+				return false;
+			}
+		};	
 		
-		
+		tm.addColumn("Enquiry ID");
+		tm.addColumn("Complaint");
+		tm.addColumn("Description");
+		tm.addColumn("Date of Submission");
 		try {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
@@ -116,19 +125,14 @@ public class Enquiry_History extends JFrame {
 				String get = "SELECT Enquiry_ID, Com_Type,Com_Description,Com_Date FROM enquiries WHERE Acc_num = '" +Acc_num+ "'";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs1 = pstmt1.executeQuery();
+				
 				while(rs1.next()){	
 					eID = rs1.getInt(1);
 					Com_type =(rs1.getString(2));
 					Com_Description =(rs1.getString(3));
 					Com_Date =(rs1.getString(4));		
-					String data [][] = {{Integer.toString(eID), Com_type,Com_Date}};
-					Enq_his_table = new JTable(data,column) {
-						private static final long serialVersionUID = 1L;
-						public boolean editCellAt(int row, int column, java.util.EventObject e) {
-							return false;
-						}
-					};	
-			}
+					tm.addRow(new Object[] {eID,Com_type,Com_Description,Com_Date});
+				}
 			}
 		}catch(SQLException sql) {
 			sql.printStackTrace();
@@ -148,23 +152,6 @@ public class Enquiry_History extends JFrame {
 		instrucLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		instrucLabel.setPreferredSize(new Dimension(600, 24));
 		instrucpanel.add(instrucLabel);
-		
-		JPanel Viewpanel = new JPanel();
-		Viewpanel.setBounds(580, 420, 105, 40);
-		getContentPane().add(Viewpanel);
-		
-		JButton ViewButton = new JButton("View");
-		ViewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				JOptionPane.showMessageDialog(ViewButton, Com_Description);
-			}
-		});
-		ViewButton.setAlignmentX(0.5f);
-		ViewButton.setBorder(new LineBorder(Color.BLUE));
-		ViewButton.setPreferredSize(new Dimension(75, 30));
-		ViewButton.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		Viewpanel.add(ViewButton);
 	}
 
 

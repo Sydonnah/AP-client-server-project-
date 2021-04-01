@@ -8,6 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,7 +35,7 @@ public class Emp_LogIn extends JFrame{
 	private JButton Login;
 	private JButton back;
 	
-	private String Username;
+	protected static String Username;
 	private String password;
 	protected Home h;
 	
@@ -140,13 +145,38 @@ public class Emp_LogIn extends JFrame{
 				Username = urname.getText();
 				password = pword.getText();
 				
-				if (urname.getText().isEmpty() ) {
-					JOptionPane.showMessageDialog(lblurname, "Field can not be empty");
-				} else if (pword.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(lblpword, "Field can not be empty");
-				}
-				// read info from file and validate
-				
+				if (urname.getText().isEmpty() || pword.getText().isEmpty() ) {
+					JOptionPane.showMessageDialog(Login, "Field can not be empty");
+				} else{
+						try {
+							Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
+							if(con == null) {
+								System.out.println("Can not connect to the database");
+							}else {
+								String read = "SELECT * FROM employeeinformation WHERE Username = ? and Password = ?" ;
+								PreparedStatement pstmt = con.prepareStatement(read);
+								pstmt.setString(1, urname.getText());
+								pstmt.setString(2, pword.getText());
+								ResultSet rs = pstmt.executeQuery();
+								if(rs.next()) {
+									dispose();
+									try {
+										new Emp_Dashboard();
+									} catch (Exception e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								}else {
+									JOptionPane.showMessageDialog(Login, "Credentials do not match database");
+									urname.setText("");
+									urname.requestFocus();
+									pword.setText("");
+								}
+							}
+						} catch (SQLException sql) {
+							sql.printStackTrace();
+						}
+				}			
 			}
 			
 		});
