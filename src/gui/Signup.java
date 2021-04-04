@@ -18,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import domain.Customer;
+import gui.Cust_LogIn;
 
 public class Signup extends JFrame{
 
@@ -44,15 +46,11 @@ public class Signup extends JFrame{
 	private JLabel lblRPword;
 	private JLabel lblEmail;
 	private JLabel lblUname;
-	private String fname;
-	private String lname;
-	private String email;
-	private String user; 
-	private String pword;
-	private String rpword;
-	protected Cust_LogIn cl;
+	private Customer cust;
+	
 
 	public Signup() {
+		cust = new Customer();
 		fnpanel = new JPanel();
 		lnpanel = new JPanel();
 		Emailpanel = new JPanel();
@@ -94,7 +92,7 @@ public class Signup extends JFrame{
 				// TODO Auto-generated method stub
 				dispose();
 				try {
-					cl = new Cust_LogIn();
+					new Cust_LogIn();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -140,12 +138,12 @@ public class Signup extends JFrame{
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fname = Fname.getText();
-				lname = Lname.getText();
-				email = Email.getText();
-				user = Username.getText();
-				pword = Pword.getText();
-				rpword = RPword.getText();
+				cust.setFname(Fname.getText());
+				cust.setLname(Lname.getText());
+				cust.setEmail(Email.getText());
+				cust.setUser(Username.getText());
+				cust.setPword(Pword.getText());
+				cust.setRpword(RPword.getText());
 				
 				if(Fname.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(lblFname, "Must enter a First Name");
@@ -167,9 +165,8 @@ public class Signup extends JFrame{
 						if(con == null) {
 							System.out.println("Can not connect to the database");
 						}else {
-							int Acc_num = 0;
 							String add = "INSERT INTO customerinformation (Acc_num, First_Name,Last_Name,Email,Username,Password) VALUES ("
-							+Acc_num+",'"+Fname.getText()+"','"+Lname.getText()+"','"+Email.getText()+"','"+Username.getText()+"','"+Pword.getText()+"')";    
+							+cust.getAcc_num()+",'"+Fname.getText()+"','"+Lname.getText()+"','"+Email.getText()+"','"+Username.getText()+"','"+Pword.getText()+"')";    
 								Statement stmt = con.createStatement();
 								stmt.executeUpdate(add);
 									JOptionPane.showMessageDialog(button, "Sign up Sucessful");
@@ -197,64 +194,6 @@ public class Signup extends JFrame{
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}
-
-	public Signup(String fname, String lname, String email, String user, String pword, String rpword) {
-		this.fname = fname;
-		this.lname = lname;
-		this.email = email;
-		this.user = user;
-		this.pword = pword;
-		this.rpword = rpword;
-	}
-
-	public String getFname() {
-		return fname;
-	}
-
-	public String getLname() {
-		return lname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-	
-	public String getUser() {
-		return user;
-	}
-
-	public String getPword() {
-		return pword;
-	}
-
-	public String getRpword() {
-		return rpword;
-	}
-
-	public void setFname(String fname) {
-		this.fname = fname;
-	}
-
-	public void setLname(String lname) {
-		this.lname = lname;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public void setUser(String user) {
-		this.user = user;
-	}
-
-	public void setPword(String pword) {
-		this.pword = pword;
-	}
-
-	public void setRpword(String rpword) {
-		this.rpword = rpword;
-	}
-	
 	
 	  //public static void main (String args[]) { new Signup(); }
 	 

@@ -12,6 +12,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+
+import domain.Customer_Enquiry;
+
 import javax.swing.border.LineBorder;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -31,10 +34,11 @@ import java.awt.event.ActionEvent;
 public class Enquiry extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+	private Customer_Enquiry ce;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Enquiry() throws IOException {
+		ce = new Customer_Enquiry();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -58,7 +62,7 @@ public class Enquiry extends JFrame {
 		instrucPanel.setBorder(new MatteBorder(1, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		getContentPane().add(instrucPanel);
 		
-		JLabel instrucLabel = new JLabel("WELCOME "+ Cust_LogIn.Username+ ", "+ "PLEASE LODGE YOUR COMPLAINTS HERE");
+		JLabel instrucLabel = new JLabel("WELCOME "+ Cust_LogIn.urname.getText()+ ", "+ "PLEASE LODGE YOUR COMPLAINTS HERE");
 		instrucLabel.setPreferredSize(new Dimension(600, 24));
 		instrucLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		instrucLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -98,7 +102,7 @@ public class Enquiry extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
-					Cust_Dashboard cd = new Cust_Dashboard();
+					new Cust_Dashboard();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -125,7 +129,7 @@ public class Enquiry extends JFrame {
 						JOptionPane.showMessageDialog(SubmitButton, "Can not make an Enquiry at this Time....please try again later");
 					}else {
 						int Acc_num = 0;
-						String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.Username+"'" ;
+						String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.urname.getText()+"'" ;
 						PreparedStatement pstmt = con.prepareStatement(read);
 						ResultSet rs = pstmt.executeQuery();
 						while(rs.next()) {
@@ -133,9 +137,11 @@ public class Enquiry extends JFrame {
 						}
 						
 						int Enquiry_ID = 0;
-						LocalDate Com_Date = LocalDate.now();
+						ce.setCom_type(CompcomboBox.getSelectedItem().toString());
+						ce.setCom_Date(LocalDate.now().toString());
+						ce.setCom_Description(DestextArea.getText());
 						String add = "INSERT INTO enquiries (Enquiry_ID, Acc_num,com_Type,Com_Description,Com_Date) VALUES ('"
-						+Enquiry_ID+"','"+Acc_num+"','"+CompcomboBox.getSelectedItem().toString()+"','"+DestextArea.getText()+"','"+Com_Date+"')";
+						+Enquiry_ID+"','"+Acc_num+"','"+ce.getCom_type()+"','"+ce.getCom_Description()+"','"+ce.getCom_Date()+"')";
 						Statement stmt = con.createStatement();
 						stmt.executeUpdate(add);
 						JOptionPane.showMessageDialog(SubmitButton, "Enquiry Successfully Lodged");

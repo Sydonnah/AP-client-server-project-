@@ -3,10 +3,12 @@ package gui;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import domain.Customer;
 
 
 public class Cust_LogIn extends JFrame {
@@ -33,18 +36,17 @@ public class Cust_LogIn extends JFrame {
 	private JPanel backpanel;
 	private JLabel lblurname;
 	private JLabel lblpword; 
-	private JTextField urname;
+	protected static JTextField urname;
 	private JPasswordField pword;
 	private JButton Signup;
 	private JButton Login;
 	private JButton Back;
-	
-	protected static String Username;
-	protected String password;
+	private Customer cust;	
 	protected Home h;
 	
 	
 	public Cust_LogIn() throws IOException {
+		cust = new Customer();
 		urnamepanel = new JPanel();
 		pwordpanel = new JPanel();
 		signupPanel = new JPanel();
@@ -64,11 +66,13 @@ public class Cust_LogIn extends JFrame {
 		
 		backpanel.setSize(new Dimension(450,30));
 		backpanel.add(Back);
+		Back.setMnemonic(KeyEvent.VK_ESCAPE);
 		Back.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
 				dispose();
 				try {
 					h = new Home();
@@ -168,10 +172,10 @@ public class Cust_LogIn extends JFrame {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Username = urname.getText();
-				password = pword.getText();
+				cust.setUser(urname.getText());
+				cust.setPword(pword.getText());
 				
-				if (urname.getText().isEmpty() || pword.getText().isEmpty() ) {
+				if (cust.getUser().isEmpty() || cust.getPword().isEmpty() ) {
 					JOptionPane.showMessageDialog(Login, "Field can not be empty");
 				} else{
 						try {
@@ -181,8 +185,8 @@ public class Cust_LogIn extends JFrame {
 							}else {
 								String read = "SELECT * FROM customerinformation WHERE Username = ? and Password = ?" ;
 								PreparedStatement pstmt = con.prepareStatement(read);
-								pstmt.setString(1, urname.getText());
-								pstmt.setString(2, pword.getText());
+								pstmt.setString(1, cust.getUser());
+								pstmt.setString(2, cust.getPword());
 								ResultSet rs = pstmt.executeQuery();
 								if(rs.next()) {
 									dispose();
@@ -210,7 +214,7 @@ public class Cust_LogIn extends JFrame {
 		
 		
 		
-		
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("Customer Log In Section");
 		setSize(new Dimension(400,450));
 		setResizable(false);
@@ -220,32 +224,6 @@ public class Cust_LogIn extends JFrame {
 		
 	}
 
-
-	public Cust_LogIn(String username, String password) {
-		Username = username;
-		this.password = password;
-	}
-
-
-	public String getUsername() {
-		return Username;
-	}
-
-
-	public String getPassword() {
-		return password;
-	}
-
-
-	public void setUsername(String username) {
-		Username = username;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
 	
 	
 	/*

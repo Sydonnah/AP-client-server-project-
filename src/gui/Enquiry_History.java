@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+
+import domain.Customer_Enquiry;
+
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
@@ -30,17 +33,10 @@ public class Enquiry_History extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTable Enq_his_table;
-	private int eID;
-	private String Com_type;
-	private String Com_Description;
-	private String Com_Date;
-	
+	private Customer_Enquiry ce;
 	
 	public Enquiry_History() throws IOException{
-		this.eID = 0;
-		this.Com_type = " ";
-		this.Com_Description = " ";
-		this.Com_Date ="";
+		ce = new Customer_Enquiry(); 
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -64,7 +60,7 @@ public class Enquiry_History extends JFrame {
 		headPanel.setBounds(10, 100, 680, 25);
 		getContentPane().add(headPanel);
 		
-		JLabel headLabel = new JLabel("WELCOME " + Cust_LogIn.Username+ ", "+ "HERE IS YOUR ENQUIRY HISTORY?: ");
+		JLabel headLabel = new JLabel("WELCOME " + Cust_LogIn.urname.getText()+ ", "+ "HERE IS YOUR ENQUIRY HISTORY?: ");
 		headLabel.setPreferredSize(new Dimension(600, 24));
 		headLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		headLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -80,7 +76,7 @@ public class Enquiry_History extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
-					Cust_Dashboard cd = new Cust_Dashboard();
+					 new Cust_Dashboard();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -95,7 +91,7 @@ public class Enquiry_History extends JFrame {
 		JScrollPane EnqscrollPane = new JScrollPane();
 		EnqscrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		EnqscrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		EnqscrollPane.setBounds(20, 160, 675, 250);
+		EnqscrollPane.setBounds(20, 150, 675, 250);
 		getContentPane().add(EnqscrollPane);
 		
 		DefaultTableModel tm = new DefaultTableModel();
@@ -116,7 +112,7 @@ public class Enquiry_History extends JFrame {
 				System.out.println("Can not connect to the database");
 			}else {
 				int Acc_num = 0;
-				String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.Username+"'" ;
+				String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.urname.getText()+"'" ;
 				PreparedStatement pstmt = con.prepareStatement(read);
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
@@ -127,11 +123,11 @@ public class Enquiry_History extends JFrame {
 				ResultSet rs1 = pstmt1.executeQuery();
 				
 				while(rs1.next()){	
-					eID = rs1.getInt(1);
-					Com_type =(rs1.getString(2));
-					Com_Description =(rs1.getString(3));
-					Com_Date =(rs1.getString(4));		
-					tm.addRow(new Object[] {eID,Com_type,Com_Description,Com_Date});
+					ce.seteID(rs1.getInt(1));
+					ce.setCom_type(rs1.getString(2));
+					ce.setCom_Description(rs1.getString(3));
+					ce.setCom_Date(rs1.getString(4));		
+					tm.addRow(new Object[] {ce.geteID(),ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date()});
 				}
 			}
 		}catch(SQLException sql) {
@@ -143,51 +139,6 @@ public class Enquiry_History extends JFrame {
 		Enq_his_table.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		Enq_his_table.setPreferredSize(new Dimension(20, 220));
 		EnqscrollPane.setViewportView(Enq_his_table);
-		
-		JPanel instrucpanel = new JPanel();
-		instrucpanel.setBounds(10, 130, 680, 25);
-		getContentPane().add(instrucpanel);
-		
-		JLabel instrucLabel = new JLabel("Select an ID to view the description.");
-		instrucLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		instrucLabel.setPreferredSize(new Dimension(600, 24));
-		instrucpanel.add(instrucLabel);
 	}
 
-
-	public int getEID() {
-		return eID;
-	}
-	
-	public void setEID (int eID) {
-		this.eID = eID;
-	}
-	
-	public String getCom_type() {
-		return Com_type;
-	}
-
-
-	public void setCom_type(String com_type) {
-		Com_type = com_type;
-	}
-
-
-	public String getCom_Description() {
-		return Com_Description;
-	}
-	
-	public void setCom_Description(String com_Description) {
-		Com_Description = com_Description;
-	}
-
-
-	public String getCom_Date() {
-		return Com_Date;
-	}
-
-
-	public void setCom_Date(String com_Date) {
-		Com_Date = com_Date;
-	}
 }

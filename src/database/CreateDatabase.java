@@ -33,7 +33,7 @@ public class CreateDatabase {
 				+ "Com_Description VARCHAR(255),\n"
 				+ "Com_Date DATE DEFAULT CURRENT_TIMESTAMP, \n"
 				+ "Enq_status VARCHAR(50) DEFAULT 'Ouststanding', \n"
-				+ "Tech_assigned VARCHAR(50), \n"
+				+ "Tech_assigned INT(50) DEFAULT NULL, \n"
 				+ "FOREIGN KEY(Acc_num), \n"
 				+ "REFERENCES customerinformation (Acc_num),\n"
 				+ "PRIMARY KEY(Enquiry_ID));";
@@ -50,6 +50,18 @@ public class CreateDatabase {
 				+ "REFERENCES customerinformation (Acc_num), \n"
 				+ "PRIMARY KEY (Invoice_ID));";
 		
+		String Employee =
+				"Create TABLE employeeinformation("
+				+ "Emp_Id INT(50) AUTO_INCREMENT,"
+				+ "First_Name VARCHAR(50),\n"
+				+ "Last_Name VARCHAR(50),\n"
+				+ "Emp_Status VARCHAR(50) DEFAULT 'Technician', \n"
+				+ "Username VARCHAR(50), \n"
+				+ "Password VARCHAR(50), \n"
+				+ "FOREIGN KEY (Tech_assigned),\n"
+				+ "REFERENCES enquiries (Tech_assigned), \n"
+				+ "PRIMARY KEY(Emp_Id));";
+		
 		Statement stmt; 
 		try {
 			stmt = (Statement) con.createStatement();
@@ -58,6 +70,7 @@ public class CreateDatabase {
 			stmt.execute(Customer);
 			stmt.execute(CustomerEnquiry);
 			stmt.execute(CustomerAcc_Stat);
+			stmt.execute(Employee);
 			
 			System.out.println("Database Created.....");
 			return true;

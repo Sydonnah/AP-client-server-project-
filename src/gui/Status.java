@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+
+import domain.Customer_Account;
+
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.event.ActionListener;
@@ -30,18 +33,11 @@ public class Status extends JFrame {
 	private JTextField acc_statTextField;
 	private JTextField acc_owetextField;
 	private JTextField pay_duetextField;
-	private int invoice;
-	private int Acc_num;
-	private String acc_stat;
-	private String Am_owe;
-	private String d_day;
 	private JTextField InvoicetextField;
+	private Customer_Account ca;
 
 	public Status() throws IOException {
-		invoice = 0;
-		acc_stat = "";
-		Am_owe = " ";
-		d_day = " ";
+		ca = new Customer_Account();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -65,7 +61,7 @@ public class Status extends JFrame {
 		instrucPanel.setBounds(10, 100, 680, 25);
 		getContentPane().add(instrucPanel);
 		
-		JLabel instrucLabel = new JLabel("WELCOME " + Cust_LogIn.Username+ ", "+ "HERE IS YOUR CURRENT ACCOUNT STATUS: ");
+		JLabel instrucLabel = new JLabel("WELCOME " + Cust_LogIn.urname.getText()+ ", "+ "HERE IS YOUR CURRENT ACCOUNT STATUS: ");
 		instrucLabel.setPreferredSize(new Dimension(600, 24));
 		instrucLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		instrucLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -123,21 +119,21 @@ public class Status extends JFrame {
 			if(con == null) {
 				System.out.println("Can not connect to the database");
 			}else {
-				String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.Username+"'" ;
+				String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.urname.getText()+"'" ;
 				PreparedStatement pstmt = con.prepareStatement(read);
 				ResultSet rs = pstmt.executeQuery();
 				while(rs.next()) {
-				Acc_num = rs.getInt(1);
+				ca.setAcc_num(rs.getInt(1));
 				}
 				
-				String get = "SELECT Invoice_ID,Account_Stat,Amount_Owe,Due_Date FROM account_status WHERE Acc_num = '" +Acc_num+ "'";
+				String get = "SELECT Invoice_ID,Account_Stat,Amount_Owe,Due_Date FROM account_status WHERE Acc_num = '" +ca.getAcc_num()+ "'";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs1 = pstmt1.executeQuery();
 				while(rs1.next()){	
-					invoice = rs1.getInt(1);
-					acc_stat =(rs1.getString(2));
-					Am_owe=(rs1.getString(3));
-					d_day =(rs1.getString(4));		
+					ca.setInvoice(rs1.getInt(1));
+					ca.setAcc_stat(rs1.getString(2));
+					ca.setAm_owe(rs1.getString(3));
+					ca.setD_day(rs1.getString(4));		
 			}
 		}
 		}catch(SQLException sql) {
@@ -148,7 +144,7 @@ public class Status extends JFrame {
 		acctextField.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		acctextField.setEditable(false);
 		acctextField.setBounds(120, 21, 248, 25);
-		acctextField.setText(Integer.toString(Acc_num));
+		acctextField.setText(Integer.toString(ca.getAcc_num()));
 		conpanel.add(acctextField);
 	
 		
@@ -156,21 +152,21 @@ public class Status extends JFrame {
 		acc_statTextField.setEditable(false);
 		acc_statTextField.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		acc_statTextField.setBounds(120, 78, 248, 25);
-		acc_statTextField.setText(acc_stat);
+		acc_statTextField.setText(ca.getAcc_stat());
 		conpanel.add(acc_statTextField);
 		
 		acc_owetextField = new JTextField();
 		acc_owetextField.setEditable(false);
 		acc_owetextField.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		acc_owetextField.setBounds(120, 147, 248, 25);
-		acc_owetextField.setText(Am_owe);
+		acc_owetextField.setText(ca.getAm_owe());
 		conpanel.add(acc_owetextField);
 		
 		pay_duetextField = new JTextField();
 		pay_duetextField.setEditable(false);
 		pay_duetextField.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		pay_duetextField.setBounds(120, 217, 248, 25);
-		pay_duetextField.setText(d_day);
+		pay_duetextField.setText(ca.getD_day());
 		conpanel.add(pay_duetextField);
 		
 		JLabel InvoiceLabel = new JLabel("Invoice # :");
@@ -182,40 +178,9 @@ public class Status extends JFrame {
 		InvoicetextField.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		InvoicetextField.setEditable(false);
 		InvoicetextField.setBounds(490, 18, 170, 25);
-		InvoicetextField.setText(Integer.toString(invoice));
+		InvoicetextField.setText(Integer.toString(ca.getInvoice()));
 		conpanel.add(InvoicetextField);
 	
 	}
 
-	public int getInvoice() {
-		return invoice;
-	}
-
-	public String getAcc_stat() {
-		return acc_stat;
-	}
-
-	public String getAm_owe() {
-		return Am_owe;
-	}
-
-	public String getD_day() {
-		return d_day;
-	}
-
-	public void setInvoice(int invoice) {
-		this.invoice = invoice;
-	}
-
-	public void setAcc_stat(String acc_stat) {
-		this.acc_stat = acc_stat;
-	}
-
-	public void setAm_owe(String am_owe) {
-		Am_owe = am_owe;
-	}
-
-	public void setD_day(String d_day) {
-		this.d_day = d_day;
-	}
 }

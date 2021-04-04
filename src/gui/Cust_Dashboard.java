@@ -47,7 +47,7 @@ public class Cust_Dashboard extends JFrame {
 		instrucPanel.setBounds(10, 100, 680, 25);
 		getContentPane().add(instrucPanel);
 		
-		JLabel instrucLabel = new JLabel("WELCOME " + Cust_LogIn.Username+ ", "+ "WHAT SERVICE WOULD YOU LIKE TO ACCESS TODAY?");
+		JLabel instrucLabel = new JLabel("WELCOME " + Cust_LogIn.urname.getText()+ ", "+ "WHAT SERVICE WOULD YOU LIKE TO ACCESS TODAY?");
 		instrucLabel.setPreferredSize(new Dimension(600, 24));
 		instrucLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		instrucLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
