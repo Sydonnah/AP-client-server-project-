@@ -1,4 +1,4 @@
-package gui;
+ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -98,7 +98,6 @@ public class Enquiry extends JFrame {
 		
 		JButton backButton = new JButton("Go Back");
 		backButton.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {

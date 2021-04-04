@@ -173,12 +173,11 @@ public class Emp_Dashboard extends JFrame {
 		LogOut.setPreferredSize(new Dimension(75, 35));
 		LogOut.setBorder(new LineBorder(Color.BLUE));
 		LogOut.addActionListener(new ActionListener() {
-			@SuppressWarnings("unused")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					dispose();
 					try {
-						Emp_LogIn el = new Emp_LogIn();
+						 new Emp_LogIn();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

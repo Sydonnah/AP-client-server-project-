@@ -18,10 +18,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+
+import domain.Customer_Enquiry;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ScrollPaneConstants;
-import java.awt.Rectangle;
 
 
 public class Emp_complaints extends JFrame {
@@ -30,17 +31,11 @@ public class Emp_complaints extends JFrame {
 	private int res = 0;
 	private int out = 0;
 	private JTable CompTable;
-	protected int eID;
-	protected String Com_type;
-	protected String Com_Description;
-	protected String Com_Date;
+	private Customer_Enquiry ce;
 	
 	
 	public Emp_complaints() {
-		eID = 0;
-		Com_type = "";
-		Com_Description = "";
-		Com_Date = "";
+		ce = new Customer_Enquiry();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -91,7 +86,7 @@ public class Emp_complaints extends JFrame {
 				sql.printStackTrace();
 			}
 		
-		JLabel TaskLabel = new JLabel("Complaints - Resolved:" +res+ "  Outstanding: "+out);
+		JLabel TaskLabel = new JLabel("Complaints - Resolved:  " +res+ "  Outstanding: "+out);
 		TaskLabel.setHorizontalTextPosition(SwingConstants.LEADING);
 		TaskLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		TaskLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
@@ -125,13 +120,13 @@ public class Emp_complaints extends JFrame {
 				ResultSet rs = pstmt1.executeQuery();
 				
 				while(rs.next()){	
-					eID = rs.getInt(1);
+					ce.seteID(rs.getInt(1));
 					Acc_num = rs.getInt(2);
-					Com_type =rs.getString(3);
-					Com_Description =rs.getString(4);
-					Com_Date =rs.getString(5);	
+					ce.setCom_type(rs.getString(3));
+					ce.setCom_Description(rs.getString(4));
+					ce.setCom_Date(rs.getString(5));	
 					Tech_assigned = rs.getString(6);
-					tm.addRow(new Object[] {eID,Acc_num,Com_type,Com_Description,Com_Date, Tech_assigned});	
+					tm.addRow(new Object[] {ce.geteID(),Acc_num,ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(), Tech_assigned});	
 			}
 			}
 			}catch(SQLException sql) {
@@ -148,56 +143,6 @@ public class Emp_complaints extends JFrame {
 
 	public int getOut() {
 		return out;
-	}
-
-
-	public int geteID() {
-		return eID;
-	}
-
-
-	public String getCom_type() {
-		return Com_type;
-	}
-
-
-	public String getCom_Description() {
-		return Com_Description;
-	}
-
-
-	public String getCom_Date() {
-		return Com_Date;
-	}
-
-
-	public void setRes(int res) {
-		this.res = res;
-	}
-
-
-	public void setOut(int out) {
-		this.out = out;
-	}
-
-
-	public void seteID(int eID) {
-		this.eID = eID;
-	}
-
-
-	public void setCom_type(String com_type) {
-		Com_type = com_type;
-	}
-
-
-	public void setCom_Description(String com_Description) {
-		Com_Description = com_Description;
-	}
-
-
-	public void setCom_Date(String com_Date) {
-		Com_Date = com_Date;
 	}
 	
 	

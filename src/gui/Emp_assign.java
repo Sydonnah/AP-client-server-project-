@@ -6,25 +6,43 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import domain.Customer_Enquiry;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Emp_assign extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private int res = 0;
 	private int out = 0;
+	private JTable CompTable;
+	private JScrollPane CompScrollPane;
+	private Customer_Enquiry ce;
 
 	
 	public Emp_assign() {
+		ce = new Customer_Enquiry();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -81,6 +99,113 @@ public class Emp_assign extends JFrame {
 		TaskLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		TaskLabel.setBounds(400, 0, 270, 20);
 		instrucPanel.add(TaskLabel);
+		
+		CompScrollPane = new JScrollPane();
+		CompScrollPane.setBounds(20, 148, 666, 231);
+		getContentPane().add(CompScrollPane);
+		
+		DefaultTableModel tm = new DefaultTableModel();
+		CompTable = new JTable(tm);
+		CompTable.setFillsViewportHeight(true);
+		CompTable.setPreferredSize(new Dimension(0, 50));
+		CompTable.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		tm.addColumn("Enquiry ID");
+		tm.addColumn("Account Number");
+		tm.addColumn("Complaint");
+		tm.addColumn("Description");
+		tm.addColumn("Date of Submission");
+		tm.addColumn("Technician assigned");
+		
+		try {
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
+			if(con == null) {
+				System.out.println("Can not connect to the database");
+			}else {
+				int Acc_num = 0;
+				String Tech = " ";
+				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date, Tech_assigned FROM enquiries WHERE Tech_assigned IS null";
+				PreparedStatement pstmt1 = con.prepareStatement(get);
+				ResultSet rs = pstmt1.executeQuery();
+				
+				while(rs.next()){	
+					ce.seteID(rs.getInt(1));
+					Acc_num = rs.getInt(2);
+					ce.setCom_type(rs.getString(3));
+					ce.setCom_Description(rs.getString(4));
+					ce.setCom_Date(rs.getString(5));
+					Tech = rs.getString(6);
+					tm.addRow(new Object[] {ce.geteID(),Acc_num,ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(),Tech});	
+			}
+			}
+			}catch(SQLException sql) {
+				sql.printStackTrace();
+			}
+		CompScrollPane.setViewportView(CompTable);
+		
+		JPanel Buttonpanel = new JPanel();
+		Buttonpanel.setBounds(550, 410, 130, 35);
+		getContentPane().add(Buttonpanel);
+		
+		JButton AddButton = new JButton("Assign Technician");
+		AddButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int col = 0;
+				int row = CompTable.getSelectedRow();
+				int val = (Integer) CompTable.getModel().getValueAt(row, col);
+				System.out.println(val);
+				AssignTech(val);
+				
+			}
+		});
+		
+		AddButton.setPreferredSize(new Dimension(125, 30));
+		AddButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLUE));
+		AddButton.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		Buttonpanel.add(AddButton);
 	}
-
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void AssignTech(int value) {
+		JInternalFrame inframe = new JInternalFrame();
+		
+		
+		JLabel techlbl = new JLabel("Technicians: ");
+		techlbl.setBounds(10,10,100,35);
+		inframe.add(techlbl);
+		
+		JComboBox techop = new JComboBox();
+		techop.setBounds(110, 10, 100, 35);
+		try {
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
+			if(con == null) {
+				System.out.println("Can not connect to the database");
+			}else {
+				String read = "SELECT Emp_Id FROM employeeinformation " ;
+				PreparedStatement pstmt = con.prepareStatement(read);
+				ResultSet rs = pstmt.executeQuery();
+				while(rs.next()) {
+					techop.setModel(new DefaultComboBoxModel(new String [] { rs.getString(1)}));
+					//fix combobox
+					}
+				}
+			}catch(SQLException sql){
+				sql.printStackTrace();
+			}
+		
+		
+		inframe.add(techop);
+		
+		
+		JButton subButton = new JButton("Submit");
+		//add submit
+		
+		inframe.setVisible(true);
+		inframe.setClosable(true);
+		inframe.setLayout(null);
+		inframe.setSize(new Dimension(300,350));
+		CompScrollPane.add(inframe);
+		
+		
+		
+	}
 }
