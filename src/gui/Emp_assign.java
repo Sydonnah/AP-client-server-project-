@@ -11,23 +11,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import domain.Customer_Enquiry;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -40,7 +35,7 @@ public class Emp_assign extends JFrame {
 	private JScrollPane CompScrollPane;
 	private Customer_Enquiry ce;
 
-	
+
 	public Emp_assign() {
 		ce = new Customer_Enquiry();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
@@ -50,29 +45,29 @@ public class Emp_assign extends JFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setSize(new Dimension(725, 500));
 		getContentPane().setLayout(null);
-		
+
 		JPanel imgpanel = new JPanel();
 		imgpanel.setBounds(10, 10, 680, 85);
 		getContentPane().add(imgpanel);
-		
-		JLabel img = new JLabel("");
+
+		JLabel img = new JLabel(" ");
 		img.setSize(new Dimension(680, 85));
 		img.setIcon(new ImageIcon("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		imgpanel.add(img);
-		
+
 		JPanel instrucPanel = new JPanel();
 		instrucPanel.setPreferredSize(new Dimension(10, 50));
 		instrucPanel.setBorder(new MatteBorder(1, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		instrucPanel.setBounds(10, 100, 680, 25);
 		getContentPane().add(instrucPanel);
 		instrucPanel.setLayout(null);
-		
-		JLabel instrucLabel = new JLabel("WELCOME " + Emp_LogIn.Username);
+
+		JLabel instrucLabel = new JLabel(" WELCOME " + Emp_LogIn.Username);
 		instrucLabel.setBounds(20, 0, 210, 25);
 		instrucLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 		instrucLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		instrucPanel.add(instrucLabel);
-		
+
 		try {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
@@ -83,31 +78,29 @@ public class Emp_assign extends JFrame {
 				ResultSet rs = stmt.executeQuery(query);
 				rs.next();
 				res = rs.getInt(1);
-				
+
 				String query1 = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Outstanding'";
 				ResultSet rs1 = stmt.executeQuery(query1);
 				rs1.next();
 				out = rs1.getInt(1);
-				}
-			}catch(SQLException sql) {
-				sql.printStackTrace();
 			}
-		
+		}catch(SQLException sql) {
+			sql.printStackTrace();
+		}
+
 		JLabel TaskLabel = new JLabel("Complaints - Resolved:" +res+ "  Outstanding: "+out);
 		TaskLabel.setHorizontalTextPosition(SwingConstants.LEADING);
 		TaskLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		TaskLabel.setFont(new Font("Times New Roman", Font.BOLD, 12));
 		TaskLabel.setBounds(400, 0, 270, 20);
 		instrucPanel.add(TaskLabel);
-		
+
 		CompScrollPane = new JScrollPane();
 		CompScrollPane.setBounds(20, 148, 666, 231);
 		getContentPane().add(CompScrollPane);
-		
+
 		DefaultTableModel tm = new DefaultTableModel();
 		CompTable = new JTable(tm);
-		CompTable.setFillsViewportHeight(true);
-		CompTable.setPreferredSize(new Dimension(0, 50));
 		CompTable.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		tm.addColumn("Enquiry ID");
 		tm.addColumn("Account Number");
@@ -115,7 +108,7 @@ public class Emp_assign extends JFrame {
 		tm.addColumn("Description");
 		tm.addColumn("Date of Submission");
 		tm.addColumn("Technician assigned");
-		
+
 		try {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
@@ -126,7 +119,7 @@ public class Emp_assign extends JFrame {
 				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date, Tech_assigned FROM enquiries WHERE Tech_assigned IS null";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs = pstmt1.executeQuery();
-				
+
 				while(rs.next()){	
 					ce.seteID(rs.getInt(1));
 					Acc_num = rs.getInt(2);
@@ -135,77 +128,68 @@ public class Emp_assign extends JFrame {
 					ce.setCom_Date(rs.getString(5));
 					Tech = rs.getString(6);
 					tm.addRow(new Object[] {ce.geteID(),Acc_num,ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(),Tech});	
+				}
 			}
-			}
-			}catch(SQLException sql) {
-				sql.printStackTrace();
-			}
+		}catch(SQLException sql) {
+			sql.printStackTrace();
+		}
 		CompScrollPane.setViewportView(CompTable);
-		
+
 		JPanel Buttonpanel = new JPanel();
 		Buttonpanel.setBounds(550, 410, 130, 35);
 		getContentPane().add(Buttonpanel);
-		
+
 		JButton AddButton = new JButton("Assign Technician");
 		AddButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int col = 0;
+				int col = 5;
 				int row = CompTable.getSelectedRow();
-				int val = (Integer) CompTable.getModel().getValueAt(row, col);
-				System.out.println(val);
-				AssignTech(val);
-				
+				String Techid = (String) CompTable.getModel().getValueAt(row,col);
+				int val = (Integer) CompTable.getModel().getValueAt(row,0);
+				try {
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
+					if(con == null) {
+						System.out.println("Can not connect to the database");
+					}else {
+						String get = "UPDATE enquiries SET Tech_assigned = '"+Techid+"' WHERE Enquiry_Id = '" +val+"'";
+						Statement pstmt1 = con.createStatement();
+						pstmt1.executeUpdate(get);
+						dispose();
+						new Emp_assign();
+						JOptionPane.showMessageDialog(AddButton, "Technician Assigned Successfully");
+					}
+				} catch (ClassCastException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
 			}
 		});
-		
+
 		AddButton.setPreferredSize(new Dimension(125, 30));
 		AddButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLUE));
-		AddButton.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		AddButton.setFont(new Font("Times New Roman ", Font.PLAIN, 12));
 		Buttonpanel.add(AddButton);
-	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void AssignTech(int value) {
-		JInternalFrame inframe = new JInternalFrame();
 		
+		JPanel Backpanel = new JPanel();
+		Backpanel.setBounds(31, 410, 130, 35);
+		getContentPane().add(Backpanel);
 		
-		JLabel techlbl = new JLabel("Technicians: ");
-		techlbl.setBounds(10,10,100,35);
-		inframe.add(techlbl);
-		
-		JComboBox techop = new JComboBox();
-		techop.setBounds(110, 10, 100, 35);
-		try {
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
-			if(con == null) {
-				System.out.println("Can not connect to the database");
-			}else {
-				String read = "SELECT Emp_Id FROM employeeinformation " ;
-				PreparedStatement pstmt = con.prepareStatement(read);
-				ResultSet rs = pstmt.executeQuery();
-				while(rs.next()) {
-					techop.setModel(new DefaultComboBoxModel(new String [] { rs.getString(1)}));
-					//fix combobox
-					}
-				}
-			}catch(SQLException sql){
-				sql.printStackTrace();
+		JButton BackButton = new JButton("Back");
+		BackButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new Emp_Dashboard();
 			}
-		
-		
-		inframe.add(techop);
-		
-		
-		JButton subButton = new JButton("Submit");
-		//add submit
-		
-		inframe.setVisible(true);
-		inframe.setClosable(true);
-		inframe.setLayout(null);
-		inframe.setSize(new Dimension(300,350));
-		CompScrollPane.add(inframe);
-		
-		
-		
+		});
+		BackButton.setPreferredSize(new Dimension(125, 30));
+		BackButton.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		BackButton.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.BLUE));
+		Backpanel.add(BackButton);
 	}
 }

@@ -23,6 +23,9 @@ import domain.Customer_Enquiry;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class Emp_complaints extends JFrame {
@@ -133,6 +136,26 @@ public class Emp_complaints extends JFrame {
 				sql.printStackTrace();
 			}
 		CompScrollPane.setViewportView(CompTable);
+		
+		JPanel Backpanel = new JPanel();
+		Backpanel.setBounds(20, 410, 120, 35);
+		getContentPane().add(Backpanel);
+		
+		JButton BackButton = new JButton("Back");
+		BackButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				try {
+					new Emp_Dashboard();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		BackButton.setPreferredSize(new Dimension(100, 30));
+		BackButton.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		Backpanel.add(BackButton);
 	}
 
 
