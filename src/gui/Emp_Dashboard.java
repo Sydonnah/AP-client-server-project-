@@ -132,20 +132,16 @@ public class Emp_Dashboard extends JFrame {
 						while(rs.next()) {
 							status = rs.getString(1);
 						}
-						System.out.println(status);
-						
-						
 					} 
-					if ( status == "Representative") {
-							dispose();
-							new Emp_assign();
+					String compstatus = "Representative"; 
+					if (status.equals(compstatus)) {
+						dispose();
+						new Emp_assign();
 						}else {
-							System.out.println("NO");
+							JOptionPane.showMessageDialog(Service2Button, "Access Denied.....You are not a Representative ");
 						}
-						
-					
 
-				} catch (HeadlessException | SQLException e1) {
+				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
