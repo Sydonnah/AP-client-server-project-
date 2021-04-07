@@ -19,13 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import domain.Customer;
-import gui.Cust_LogIn;
 
 public class Signup extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel fnpanel;
 	private JPanel lnpanel;
+	private JPanel conpanel;
 	private JPanel Emailpanel;
 	private JPanel U_namepanel;
 	private JPanel Pwordpanel;
@@ -34,6 +34,7 @@ public class Signup extends JFrame{
 	private JPanel backpanel;
 	private JTextField Fname;
 	private JTextField Lname;
+	private JTextField contact;
 	private JTextField Email;
 	private JTextField Username;
 	private JPasswordField Pword;
@@ -42,6 +43,7 @@ public class Signup extends JFrame{
 	private JButton backbutton;
 	private JLabel lblFname;
 	private JLabel lblLname;
+	private JLabel lblcontact;
 	private JLabel lblPword;
 	private JLabel lblRPword;
 	private JLabel lblEmail;
@@ -53,6 +55,7 @@ public class Signup extends JFrame{
 		cust = new Customer();
 		fnpanel = new JPanel();
 		lnpanel = new JPanel();
+		conpanel = new JPanel();
 		Emailpanel = new JPanel();
 		U_namepanel = new JPanel();
 		Pwordpanel = new JPanel();
@@ -61,6 +64,7 @@ public class Signup extends JFrame{
 		backpanel = new JPanel();
 		Fname = new JTextField(20);
 		Lname = new JTextField(20);
+		contact = new JTextField(10);
 		Email = new JTextField(20);
 		Username = new JTextField(20);
 		Pword = new JPasswordField(20);
@@ -69,6 +73,7 @@ public class Signup extends JFrame{
 		this.backbutton = new JButton("Go Back");
 		this.lblFname = new JLabel("First Name: ");
 		this.lblLname = new JLabel("Last Name: ");
+		this.lblcontact = new JLabel("Telephone: ");
 		this.lblEmail = new JLabel("Email Address: ");
 		this.lblUname = new JLabel("Username: ");
 		this.lblPword = new JLabel("Password: ");
@@ -76,6 +81,7 @@ public class Signup extends JFrame{
 		
 		Fname.setFont(new Font("Times New Roman",Font.PLAIN,14));
 		Lname.setFont(new Font("Times New Roman",Font.PLAIN,14));
+		contact.setFont(new Font("Times New Roman",Font.PLAIN,14));
 		Email.setFont(new Font("Times New Roman",Font.PLAIN,14));
 		Username.setFont(new Font("Times New Roman",Font.PLAIN,14));
 		Pword.setFont(new Font("Times New Roman",Font.PLAIN,14));
@@ -112,6 +118,11 @@ public class Signup extends JFrame{
 		lnpanel.add(Lname);
 		add(lnpanel);
 		
+		conpanel.setSize(new Dimension(450,30));
+		conpanel.add(lblcontact);
+		conpanel.add(contact);
+		add(conpanel);
+		
 		Emailpanel.setSize(new Dimension (450,30));
 		Emailpanel.add(lblEmail);
 		Emailpanel.add(Email);
@@ -140,6 +151,7 @@ public class Signup extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				cust.setFname(Fname.getText());
 				cust.setLname(Lname.getText());
+				cust.setNumber(contact.getText());
 				cust.setEmail(Email.getText());
 				cust.setUser(Username.getText());
 				cust.setPword(Pword.getText());
@@ -149,6 +161,8 @@ public class Signup extends JFrame{
 					JOptionPane.showMessageDialog(lblFname, "Must enter a First Name");
 				}else if(Lname.getText().isEmpty()){
 					JOptionPane.showMessageDialog(lblLname, "Must enter a Last Name");
+				}else if(contact.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(lblcontact, "Must enter a Telephone Number");
 				}else if(Email.getText().isEmpty()){
 					JOptionPane.showMessageDialog(lblEmail, "Must enter an Email Address");
 				}else if(Username.getText().isEmpty()) {
@@ -159,14 +173,14 @@ public class Signup extends JFrame{
 					JOptionPane.showMessageDialog(lblPword, "Password must be greater than 5 characters long");
 				}else if((Pword.getText().equals(RPword.getText())) == false){
 					JOptionPane.showMessageDialog(RPword, "Password mismatch, please try again");
-				}
+				}else {
 					try {
 						Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 						if(con == null) {
 							System.out.println("Can not connect to the database");
 						}else {
-							String add = "INSERT INTO customerinformation (Acc_num, First_Name,Last_Name,Email,Username,Password) VALUES ("
-							+cust.getAcc_num()+",'"+Fname.getText()+"','"+Lname.getText()+"','"+Email.getText()+"','"+Username.getText()+"','"+Pword.getText()+"')";    
+							String add = "INSERT INTO customerinformation (Acc_num, First_Name,Last_Name,Contact_Num,Email,Username,Password) VALUES ("
+							+cust.getAcc_num()+",'"+Fname.getText()+"','"+Lname.getText()+"','"+contact.getText()+"','"+Email.getText()+"','"+Username.getText()+"','"+Pword.getText()+"')";    
 								Statement stmt = con.createStatement();
 								stmt.executeUpdate(add);
 									JOptionPane.showMessageDialog(button, "Sign up Sucessful");
@@ -179,6 +193,7 @@ public class Signup extends JFrame{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}
 			}
 			
 		});

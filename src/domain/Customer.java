@@ -4,15 +4,17 @@ public class Customer {
 	protected int Acc_num;
 	protected String fname;
 	protected String lname;
+	protected String number;
 	protected String email;
 	protected String user;
 	protected String pword;
 	protected String rpword;
 	
-	public Customer(int acc_num, String fname, String lname, String email, String user, String pword, String rpword) {
+	public Customer(int acc_num, String fname, String lname, String number , String email, String user, String pword, String rpword) {
 		Acc_num = acc_num;
 		this.fname = fname;
 		this.lname = lname;
+		this.number = number;
 		this.email = email;
 		this.user = user;
 		this.pword = pword;
@@ -24,6 +26,7 @@ public class Customer {
 		Acc_num = 0;
 		fname = " ";
 		lname = " ";
+		number = " ";
 		email = " ";
 		user = " ";
 		pword = " ";
@@ -43,6 +46,10 @@ public class Customer {
 
 	public String getLname() {
 		return lname;
+	}
+	
+	public String getNumber() {
+		return number;
 	}
 
 
@@ -79,6 +86,10 @@ public class Customer {
 	public void setLname(String lname) {
 		this.lname = lname;
 	}
+	
+	public void setNumber(String number) {
+		this.number = number;
+	}
 
 
 	public void setEmail(String email) {
@@ -103,9 +114,11 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Customer [Acc_num=" + Acc_num + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", user="
-				+ user + ", pword=" + pword + ", rpword=" + rpword + "]";
+		return "Customer [Acc_num=" + Acc_num + ", fname=" + fname + ", lname=" + lname + ", number=" + number
+				+ ", email=" + email + ", user=" + user + ", pword=" + pword + ", rpword=" + rpword + "]";
 	}
+
+
 	
 	
 

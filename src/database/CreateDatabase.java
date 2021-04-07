@@ -20,6 +20,7 @@ public class CreateDatabase {
 				+ "Acc_num INT(50) AUTO_INCREMENT,\n"
 				+ "First_Name VARCHAR(50),\n"
 				+ "Last_Name VARCHAR(50),\n"
+				+ "Contact_Num VARCHAR(50),\n"
 				+ "Email VARCHAR(50),\n"
 				+ "Username VARCHAR(50),\n"
 				+ "Password VARCHAR(50),\n"

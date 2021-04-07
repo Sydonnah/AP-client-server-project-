@@ -20,6 +20,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import domain.Customer_Enquiry;
+import domain.Customer;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -35,9 +36,11 @@ public class Emp_complaints extends JFrame {
 	private int out = 0;
 	private JTable CompTable;
 	private Customer_Enquiry ce;
+	private Customer c;
 	
 	
 	public Emp_complaints() {
+		c = new Customer();
 		ce = new Customer_Enquiry();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
@@ -105,9 +108,12 @@ public class Emp_complaints extends JFrame {
 		CompTable.setFillsViewportHeight(true);
 		CompTable.setPreferredSize(new Dimension(0, 50));
 		CompTable.setFont(new Font("Times New Roman", Font.PLAIN, 12));
-		tm.addColumn("Enquiry ID");
 		tm.addColumn("Account Number");
-		tm.addColumn("Complaint");
+		tm.addColumn("First Name");
+		tm.addColumn("Last Name");
+		tm.addColumn("Contact");
+		tm.addColumn("Enquiry ID");
+		tm.addColumn("Enquiry Type");
 		tm.addColumn("Description");
 		tm.addColumn("Date of Submission");
 		tm.addColumn("Technician Assigned");
@@ -116,20 +122,23 @@ public class Emp_complaints extends JFrame {
 			if(con == null) {
 				System.out.println("Can not connect to the database");
 			}else {
-				int Acc_num = 0;
 				String Tech_assigned = "";
-				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date,Emp_Id FROM enquiries WHERE Enq_status = 'Outstanding'";
+				String get = "SELECT c.Acc_num , c.First_Name , c.Last_Name , c.Contact_Num, e.Enquiry_ID,"
+						+ "e.Com_Type,e.Com_Description,e.Com_Date,e.Emp_Id FROM customerinformation AS c LEFT JOIN enquiries AS e on c.Acc_num = e.Acc_num";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs = pstmt1.executeQuery();
 				
 				while(rs.next()){	
-					ce.seteID(rs.getInt(1));
-					Acc_num = rs.getInt(2);
-					ce.setCom_type(rs.getString(3));
-					ce.setCom_Description(rs.getString(4));
-					ce.setCom_Date(rs.getString(5));	
-					Tech_assigned = rs.getString(6);
-					tm.addRow(new Object[] {ce.geteID(),Acc_num,ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(), Tech_assigned});	
+					c.setAcc_num(rs.getInt(1));
+					c.setFname(rs.getString(2));
+					c.setLname(rs.getString(3));
+					c.setNumber(rs.getString(4));
+					ce.seteID(rs.getInt(5));
+					ce.setCom_type(rs.getString(6));
+					ce.setCom_Description(rs.getString(7));
+					ce.setCom_Date(rs.getString(8));	
+					Tech_assigned = rs.getString(9);
+					tm.addRow(new Object[] {c.getAcc_num(),c.getFname(),c.getLname(),c.getNumber(),ce.geteID(),ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(), Tech_assigned});	
 			}
 			}
 			}catch(SQLException sql) {
