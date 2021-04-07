@@ -118,7 +118,7 @@ public class Emp_complaints extends JFrame {
 			}else {
 				int Acc_num = 0;
 				String Tech_assigned = "";
-				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date,Tech_assigned FROM enquiries WHERE Enq_status = 'Outstanding'";
+				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date,Emp_Id FROM enquiries WHERE Enq_status = 'Outstanding'";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs = pstmt1.executeQuery();
 				

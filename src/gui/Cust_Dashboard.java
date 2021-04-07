@@ -176,5 +176,25 @@ public class Cust_Dashboard extends JFrame {
 		
 		LogOut.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		LogOutpan.add(LogOut);
+		
+
+		JButton LIveButton = new JButton("Live Chat");
+		LIveButton.setBorder(new LineBorder(new Color(0, 0, 205)));
+		LIveButton.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		LIveButton.setBounds(61, 415, 87, 34);
+		LIveButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					dispose();
+					Client c1 = new Client();
+					c1.setTitle("Customer Live Chat");
+					c1.setVisible(true);
+					
+			}
+
+		});
+		
+		
+		getContentPane().add(LIveButton);
 	}
 }

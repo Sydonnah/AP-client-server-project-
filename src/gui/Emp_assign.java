@@ -116,7 +116,7 @@ public class Emp_assign extends JFrame {
 			}else {
 				int Acc_num = 0;
 				String Tech = " ";
-				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date, Tech_assigned FROM enquiries WHERE Tech_assigned IS null";
+				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date, Emp_Id FROM enquiries WHERE Emp_Id IS null";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs = pstmt1.executeQuery();
 
@@ -151,7 +151,7 @@ public class Emp_assign extends JFrame {
 					if(con == null) {
 						System.out.println("Can not connect to the database");
 					}else {
-						String get = "UPDATE enquiries SET Tech_assigned = '"+Techid+"' WHERE Enquiry_Id = '" +val+"'";
+						String get = "UPDATE enquiries SET Emp_Id = '"+Techid+"' WHERE Enquiry_Id = '" +val+"'";
 						Statement pstmt1 = con.createStatement();
 						pstmt1.executeUpdate(get);
 						dispose();
