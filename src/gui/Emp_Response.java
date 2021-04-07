@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.JTextField;
 
 public class Emp_Response extends JFrame {
 
@@ -81,5 +82,4 @@ public class Emp_Response extends JFrame {
 		TaskLabel.setBounds(400, 0, 270, 20);
 		instrucPanel.add(TaskLabel);
 	}
-
 }

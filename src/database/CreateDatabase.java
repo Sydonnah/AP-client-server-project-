@@ -32,10 +32,15 @@ public class CreateDatabase {
 				+ " Com_Type VARCHAR(50), \n"
 				+ "Com_Description VARCHAR(255),\n"
 				+ "Com_Date DATE DEFAULT CURRENT_TIMESTAMP, \n"
-				+ "Enq_status VARCHAR(50) DEFAULT 'Ouststanding', \n"
+				+ "Enq_status VARCHAR(50) DEFAULT 'Outstanding', \n"
 				+ "Emp_Id INT(50), \n"
+				+ "Emp_Response VARCHAR(255), \n"
 				+ "FOREIGN KEY(Acc_num) \n"
 				+ "REFERENCES customerinformation (Acc_num),\n"
+				+ "FOREIGN KEY(Emp_Id) \n"
+				+ "REFERENCES employeeinformation(Emp_Id)\n"
+				+ "ON DELETE CASCADE \n"
+				+ "ON UPDATE CASCADE,\n"
 				+ "PRIMARY KEY(Enquiry_ID));";
 		
 		String CustomerAcc_Stat = 
@@ -52,14 +57,12 @@ public class CreateDatabase {
 		
 		String Employee =
 				"Create TABLE employeeinformation("
-				+ "Emp_Id INT(50), \n"
+				+ "Emp_Id INT(50) AUTO_INCREMENT, \n"
 				+ "First_Name VARCHAR(50),\n"
 				+ "Last_Name VARCHAR(50),\n"
 				+ "Emp_Status VARCHAR(50) DEFAULT 'Technician', \n"
 				+ "Username VARCHAR(50), \n"
 				+ "Password VARCHAR(50), \n"
-				+ "FOREIGN KEY (Emp_Id) \n"
-				+ "REFERENCES enquiries (Emp_Id), \n"
 				+ "PRIMARY KEY(Emp_Id));";
 		
 		String index =
@@ -72,10 +75,10 @@ public class CreateDatabase {
 			stmt.execute(createdb,0);
 			stmt.execute(dbchoice,0);
 			stmt.execute(Customer,0);
-			stmt.execute(CustomerEnquiry,0);
-			stmt.executeUpdate(index);
 			stmt.execute(CustomerAcc_Stat,0);
 			stmt.execute(Employee,0);
+			stmt.execute(CustomerEnquiry,0);
+			stmt.executeUpdate(index);
 			
 			System.out.println("Database Created.....");
 			return true;

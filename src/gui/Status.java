@@ -126,7 +126,7 @@ public class Status extends JFrame {
 				ca.setAcc_num(rs.getInt(1));
 				}
 				
-				String get = "SELECT Invoice_ID,Account_Stat,Amount_Owe,Due_Date FROM account_status WHERE Acc_num = '" +ca.getAcc_num()+ "'";
+				String get = "SELECT Invoice_ID,Account_Stat,Amount_Owe,Due_Date FROM account_status WHERE Acc_num = '" +ca.getAcc_num()+ "' and Account_Stat = 'Pending'";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs1 = pstmt1.executeQuery();
 				while(rs1.next()){	

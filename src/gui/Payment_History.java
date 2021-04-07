@@ -119,13 +119,13 @@ public class Payment_History extends JFrame {
 				while(rs.next()) {
 					ca.setAcc_num(rs.getInt(1));
 				}
-				String get = "SELECT Invoice_ID, Amount_Paid,Due_Date FROM account_status WHERE Acc_num = '" +ca.getAcc_num()+ "'" +"and Account_Stat = 'Completed'";
+				String get = "SELECT Invoice_ID,Amount_Paid,Due_Date FROM account_status WHERE Acc_num = '" +ca.getAcc_num()+ "'" +"and Account_Stat = 'Completed'";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs1 = pstmt1.executeQuery();
 				
 				while(rs1.next()){	
 					ca.setInvoice(rs1.getInt(1));
-					ca.setAm_owe(rs1.getString(2));
+					ca.setAm_paid(rs1.getString(2));
 					ca.setD_day(rs1.getString(3));		
 					tm.addRow(new Object[] {ca.getInvoice(),ca.getAcc_num(),ca.getAm_paid(),ca.getD_day()});
 				}
