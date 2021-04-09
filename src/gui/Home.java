@@ -26,7 +26,7 @@ import java.io.IOException;
 public class Home extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	Logger logger = Logger.getLogger(Home.class);
+	final Logger logger = Logger.getLogger(Home.class);
 	
 
 	public Home() throws IOException{
@@ -51,7 +51,7 @@ public class Home extends JFrame {
 				int Prompt = JOptionPane.showOptionDialog(null, "Are you sure you want to Exit?", "Micro-Star CableVision", 
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,button,button[1]);
 				if(Prompt == JOptionPane.YES_OPTION) {
-					logger.info("Exited program");
+					logger.info("Opted to exit program");
 					System.exit(0);
 				}
 			}
@@ -105,9 +105,10 @@ public class Home extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading customer login");
 					new Cust_LogIn();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading customer login");
 					e1.printStackTrace();
 				}		
 			}
@@ -126,9 +127,10 @@ public class Home extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading employee login");
 					new Emp_LogIn();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading employee login");
 					e1.printStackTrace();
 				}
 			}
