@@ -23,9 +23,11 @@ public class Driver {
 			logger.warn("Attempting to connect to database");
 			
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
+			
+			logger.info("Database connection successful");
 			logger.info("Loading Main Menu");
 				new Home();
-				logger.info("Database connection successful");
+				
 		}catch(Exception e) {
 			logger.error("Database connection failed");
 			logger.warn("Attempting to create database instead");
