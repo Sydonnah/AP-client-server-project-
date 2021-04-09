@@ -12,6 +12,9 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+
+import org.apache.log4j.Logger;
+
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -23,9 +26,11 @@ import java.io.IOException;
 public class Home extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	Logger logger = Logger.getLogger(Home.class);
 	
 
 	public Home() throws IOException{
+		logger.info("Home menu loaded successfully");
 		setVisible(true);
 		setSize(new Dimension(725, 500));
 		setResizable(false);
@@ -46,6 +51,7 @@ public class Home extends JFrame {
 				int Prompt = JOptionPane.showOptionDialog(null, "Are you sure you want to Exit?", "Micro-Star CableVision", 
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,button,button[1]);
 				if(Prompt == JOptionPane.YES_OPTION) {
+					logger.info("Exited program");
 					System.exit(0);
 				}
 			}

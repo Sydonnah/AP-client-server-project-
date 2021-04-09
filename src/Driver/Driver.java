@@ -46,7 +46,7 @@ public class Driver {
 					logger.info("Failed to create database");
 				}
 				
-				logger.info("Loading Main Menu");
+				logger.info("Loading Home Menu");
 				new Home();
 	}
 	}
