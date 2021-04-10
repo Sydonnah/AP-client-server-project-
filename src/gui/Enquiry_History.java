@@ -13,6 +13,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
+
 import domain.Customer_Enquiry;
 
 import javax.swing.JButton;
@@ -30,12 +32,15 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 public class Enquiry_History extends JFrame {
+	
+	Logger logger = Logger.getLogger(Enquiry_History.class);
 
 	private static final long serialVersionUID = 1L;
 	private JTable Enq_his_table;
 	private Customer_Enquiry ce;
 	
 	public Enquiry_History() throws IOException{
+		logger.info("Enquiry History loaded succesfully");
 		ce = new Customer_Enquiry(); 
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
@@ -76,9 +81,10 @@ public class Enquiry_History extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading Customer Dashboard");
 					 new Cust_Dashboard();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Customer Dashboard");
 					e1.printStackTrace();
 				}
 			}
@@ -107,10 +113,14 @@ public class Enquiry_History extends JFrame {
 		tm.addColumn("Description");
 		tm.addColumn("Date of Submission");
 		try {
+			logger.warn("Connecting to database");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
-				System.out.println("Can not connect to the database");
+				//Can not connect to the database
+				logger.warn("Database connection null");
 			}else {
+				logger.info("Database connection successful");
+				logger.info("Displaying history details");
 				int Acc_num = 0;
 				String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.urname.getText()+"'" ;
 				PreparedStatement pstmt = con.prepareStatement(read);
@@ -131,6 +141,7 @@ public class Enquiry_History extends JFrame {
 				}
 			}
 		}catch(SQLException sql) {
+			logger.error("Failed to connect to database");
 			sql.printStackTrace();
 		}catch(Exception e ) {
 			e.printStackTrace();
