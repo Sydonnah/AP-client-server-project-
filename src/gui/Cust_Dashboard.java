@@ -128,7 +128,7 @@ public class Cust_Dashboard extends JFrame {
 				// TODO Auto-generated method stub
 				dispose();
 				try {
-					logger.warn("Loading Enquiry HIstory screen");
+					logger.warn("Loading Enquiry History screen");
 					Enquiry_History eh = new Enquiry_History();
 				} catch (Exception e1) {
 					logger.error("Error loading Enquiry Screen");

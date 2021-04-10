@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
+import org.apache.log4j.Logger;
+
 import domain.Customer_Enquiry;
 
 import javax.swing.border.LineBorder;
@@ -32,12 +34,15 @@ import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 
 public class Enquiry extends JFrame {
+	
+	Logger logger = Logger.getLogger(Enquiry.class);
 
 	private static final long serialVersionUID = 1L;
 	private Customer_Enquiry ce;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Enquiry() throws IOException {
+		logger.info("Enquiry loaded successfully");
 		ce = new Customer_Enquiry();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
@@ -101,9 +106,10 @@ public class Enquiry extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading Customer Dashboard");
 					new Cust_Dashboard();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Customer Dashboard");
 					e1.printStackTrace();
 				}
 			}
@@ -122,11 +128,14 @@ public class Enquiry extends JFrame {
 		SubmitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					logger.warn("COnnecting to database");
 					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 					if(con == null) {
-						System.out.println("Can not connect to the database");
+						//Can not connect to the database
+						logger.warn("Database connection null");
 						JOptionPane.showMessageDialog(SubmitButton, "Can not make an Enquiry at this Time....please try again later");
 					}else {
+						logger.info("Database connection successful");
 						int Acc_num = 0;
 						String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.urname.getText()+"'" ;
 						PreparedStatement pstmt = con.prepareStatement(read);
@@ -143,11 +152,14 @@ public class Enquiry extends JFrame {
 						+Enquiry_ID+"','"+Acc_num+"','"+ce.getCom_type()+"','"+ce.getCom_Description()+"','"+ce.getCom_Date()+"')";
 						Statement stmt = con.createStatement();
 						stmt.executeUpdate(add);
+						logger.info("Enquire lodged successfully");
 						JOptionPane.showMessageDialog(SubmitButton, "Enquiry Successfully Lodged");
 						dispose();
+						logger.warn("Loading Customer Dashboard");
 						new Cust_Dashboard();
 					}
 				}catch(SQLException sql) {
+					logger.error("Failed to connect to database");
 					sql.printStackTrace();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
