@@ -6,6 +6,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.border.MatteBorder;
+
+import org.apache.log4j.Logger;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -20,10 +23,14 @@ import javax.swing.border.LineBorder;
 
 public class Cust_Dashboard extends JFrame {
 
+	Logger logger = Logger.getLogger(Cust_Dashboard.class);
+	
 	private static final long serialVersionUID = 1L;
 
 	
 	public Cust_Dashboard() throws IOException {
+		logger.info("Customer Dashboard loaded successfully");
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -73,9 +80,10 @@ public class Cust_Dashboard extends JFrame {
 				// TODO Auto-generated method stub
 				dispose();
 				try {
+					logger.warn("Loading Enquiry screen");
 					Enquiry en = new Enquiry();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Enquiry screen");
 					e1.printStackTrace();
 				}
 			}
@@ -96,9 +104,10 @@ public class Cust_Dashboard extends JFrame {
 				// TODO Auto-generated method stub
 				dispose();
 				try {
+					logger.warn("Loading Status screen");
 					Status stat = new Status();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Status screen");
 					e1.printStackTrace();
 				}
 			}
@@ -119,9 +128,10 @@ public class Cust_Dashboard extends JFrame {
 				// TODO Auto-generated method stub
 				dispose();
 				try {
+					logger.warn("Loading Enquiry HIstory screen");
 					Enquiry_History eh = new Enquiry_History();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Enquiry Screen");
 					e1.printStackTrace();
 				}
 			}
@@ -142,9 +152,10 @@ public class Cust_Dashboard extends JFrame {
 				// TODO Auto-generated method stub
 				dispose();
 				try {
+					logger.warn("Loading Payment History Screen");
 					Payment_History ph = new Payment_History();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Payment History screen");
 					e1.printStackTrace();
 				}
 			}
@@ -165,9 +176,10 @@ public class Cust_Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 					dispose();
 					try {
+						logger.warn("Loading Logout");
 						Cust_LogIn cl = new Cust_LogIn();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
+						logger.error("Error loading Logout");
 						e1.printStackTrace();
 					}
 			
@@ -186,6 +198,7 @@ public class Cust_Dashboard extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					dispose();
+					logger.warn("Loading Live Chat");
 					Client c1 = new Client();
 					c1.setTitle("Customer Live Chat");
 					c1.setVisible(true);
