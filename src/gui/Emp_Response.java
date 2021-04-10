@@ -29,13 +29,17 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.apache.log4j.Logger;
+
 import database.CreateDatabase;
+import domain.Customer;
 import domain.Customer_Enquiry;
 
 import javax.swing.JTextField;
 
 public class Emp_Response extends JFrame {
 
+	final Logger logger = Logger.getLogger(Emp_Response.class);
 	private static final long serialVersionUID = 1L;
 	private int res = 0;
 	private int out = 0;
@@ -44,9 +48,9 @@ public class Emp_Response extends JFrame {
 	
 	private JTable CompTable;
 	
-	ResultSet result;
-	private int searchEmpID;
+
 	
+	private int searchEmpID;
 	
 
 
@@ -108,18 +112,19 @@ public class Emp_Response extends JFrame {
 				//Recovering Employee ID to facilitate narrowing of details according to Emp_ID
 				String EmpIDQuery= "SELECT Emp_Id FROM employeeinformation WHERE Username ="+Emp_LogIn.Username;
 				Statement stat = con.createStatement();
-				result= stat.executeQuery(EmpIDQuery);
-				result.next();
+				ResultSet result= stat.executeQuery(EmpIDQuery);
+				//result.next();
 				searchEmpID= result.getInt(1);
 				
+				System.out.println(searchEmpID);
 				//Recovers All resolved queries
 				Statement stmt = con.createStatement();
-				String query = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Resolved' AND Emp_Id ="+searchEmpID;
+				String query = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Resolved' AND Emp_Id = searchEmpID";
 				ResultSet rs = stmt.executeQuery(query);
 				rs.next();
 				res = rs.getInt(1);
 				
-				String query1 = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Outstanding' AND Emp_Id = "+searchEmpID;
+				String query1 = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Outstanding' AND Emp_Id = searchEmpID";
 				ResultSet rs1 = stmt.executeQuery(query1);
 				rs1.next();
 				out = rs1.getInt(1);
@@ -127,18 +132,18 @@ public class Emp_Response extends JFrame {
 				int Acc_num = 0;
 				String Tech_assigned = "";
 				//updated to specific criteria
-				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date,Emp_Id FROM enquiries WHERE Enq_status = 'Outstanding' AND Emp_Id="+ searchEmpID+ "AND Emp_Response IS NULL";
+				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date,Emp_Id FROM enquiries WHERE Enq_status = 'Outstanding'AND Emp_Id= searchEmpID AND Emp_Response IS NULL";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet results = pstmt1.executeQuery();
 				
 				while(results.next())
 				{	
-					ce.seteID(rs.getInt(1));
-					Acc_num = rs.getInt(2);
-					ce.setCom_type(rs.getString(3));
-					ce.setCom_Description(rs.getString(4));
-					ce.setCom_Date(rs.getString(5));	
-					Tech_assigned = rs.getString(6);
+					ce.seteID(results.getInt(1));
+					Acc_num = results.getInt(2);
+					ce.setCom_type(results.getString(3));
+					ce.setCom_Description(results.getString(4));
+					ce.setCom_Date(results.getString(5));	
+					Tech_assigned = results.getString(6);
 					tm.addRow(new Object[] {ce.geteID(),Acc_num,ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(), Tech_assigned});	
 				}
 			}
@@ -163,7 +168,8 @@ public class Emp_Response extends JFrame {
 		TaskLabel.setBounds(400, 0, 270, 20);
 		instrucPanel.add(TaskLabel);
 	
-	
+		CompScrollPane.setViewportView(CompTable);
+		
 	//Addition of back button
 	JPanel Backpanel = new JPanel();
 	Backpanel.setBounds(20, 410, 120, 35);
@@ -174,9 +180,11 @@ public class Emp_Response extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			dispose();
 			try {
+				logger.warn("Loading Employee Dashboard");
 				new Emp_Dashboard();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
+				logger.error("Error loading Employee Dashboard");
 				e1.printStackTrace();
 			}
 		}
