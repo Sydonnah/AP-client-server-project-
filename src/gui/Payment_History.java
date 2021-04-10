@@ -33,7 +33,7 @@ import java.awt.event.ActionEvent;
 
 public class Payment_History extends JFrame {
 	
-	Logger logger = Logger.getLogger(Payment_History.class);
+	final Logger logger = Logger.getLogger(Payment_History.class);
 
 	
 	private static final long serialVersionUID = 1L;

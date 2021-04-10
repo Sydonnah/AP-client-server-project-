@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 
 public class Status extends JFrame {
 	
-	Logger logger = Logger.getLogger(Status.class);
+	final Logger logger = Logger.getLogger(Status.class);
 
 	private static final long serialVersionUID = 1L;
 	private JTextField acctextField;

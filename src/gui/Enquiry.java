@@ -35,7 +35,7 @@ import java.awt.event.ActionEvent;
 
 public class Enquiry extends JFrame {
 	
-	Logger logger = Logger.getLogger(Enquiry.class);
+	final Logger logger = Logger.getLogger(Enquiry.class);
 
 	private static final long serialVersionUID = 1L;
 	private Customer_Enquiry ce;

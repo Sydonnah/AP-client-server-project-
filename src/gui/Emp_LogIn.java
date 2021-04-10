@@ -48,9 +48,9 @@ public class Emp_LogIn extends JFrame{
 		pwordpanel = new JPanel();
 		backpanel = new JPanel();
 		loginpanel = new JPanel();
-		this.lblurname = new JLabel("ID: ");
+		this.lblurname = new JLabel("Username: ");
 		this.lblpword = new JLabel("Password: ");
-		urname = new JTextField("ID",20);
+		urname = new JTextField("username",20);
 		pword = new JPasswordField("Password",20);
 		this.Login = new JButton("LOGIN");
 		this.back = new JButton("Go Back");
@@ -77,7 +77,7 @@ public class Emp_LogIn extends JFrame{
 				
 			}
 		});
-		add(backpanel);
+		getContentPane().add(backpanel);
 		
 		urnamepanel.setSize(new Dimension(450,30));
 		urnamepanel.add(lblurname);
@@ -104,7 +104,7 @@ public class Emp_LogIn extends JFrame{
                 }
             }
         });
-		add(urnamepanel);
+		getContentPane().add(urnamepanel);
 		
 		pwordpanel.setSize(new Dimension(450,30));
 		pwordpanel.add(lblpword);
@@ -138,7 +138,7 @@ public class Emp_LogIn extends JFrame{
             }
         });
 		
-		add(pwordpanel);
+		getContentPane().add(pwordpanel);
 		
 		loginpanel.setSize(new Dimension(450,30));
 		loginpanel.add(Login);
@@ -190,7 +190,7 @@ public class Emp_LogIn extends JFrame{
 			}
 			
 		});
-		add(loginpanel);
+		getContentPane().add(loginpanel);
 		
 		
 		
@@ -199,7 +199,7 @@ public class Emp_LogIn extends JFrame{
 		setSize(new Dimension(400,450));
 		setResizable(false);
 		setVisible(true);
-		setLayout(new FlowLayout(FlowLayout.LEADING));
+		getContentPane().setLayout(new FlowLayout(FlowLayout.LEADING));
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 	}

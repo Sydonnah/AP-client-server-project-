@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 public class Server extends javax.swing.JFrame 
 {
-	Logger logger = Logger.getLogger(Server.class);
+	final Logger logger = Logger.getLogger(Server.class);
 	
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("rawtypes")

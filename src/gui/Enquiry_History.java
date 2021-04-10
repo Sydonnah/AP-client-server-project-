@@ -33,7 +33,7 @@ import javax.swing.ScrollPaneConstants;
 
 public class Enquiry_History extends JFrame {
 	
-	Logger logger = Logger.getLogger(Enquiry_History.class);
+	final Logger logger = Logger.getLogger(Enquiry_History.class);
 
 	private static final long serialVersionUID = 1L;
 	private JTable Enq_his_table;

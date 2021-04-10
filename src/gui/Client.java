@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 public class Client extends javax.swing.JFrame 
 {
 	
-	Logger logger = Logger.getLogger(Client.class);
+	final Logger logger = Logger.getLogger(Client.class);
 	
     String username, address = "localhost";
     ArrayList<String> users = new ArrayList();

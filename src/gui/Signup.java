@@ -56,7 +56,7 @@ public class Signup extends JFrame{
 
 	public Signup() {
 		
-		Logger logger = Logger.getLogger(Signup.class);
+		final Logger logger = Logger.getLogger(Signup.class);
 		
 		cust = new Customer();
 		fnpanel = new JPanel();

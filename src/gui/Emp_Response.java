@@ -43,14 +43,6 @@ public class Emp_Response extends JFrame {
 	private JTable CompTable;
 	
 	int searchEmpID=  ce.geteID();
-	public String getResponse() {
-		return response;
-	}
-
-
-	public void setResponse(String response) {
-		this.response = response;
-	}
 
 
 	public Emp_Response() {

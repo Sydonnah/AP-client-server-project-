@@ -23,7 +23,7 @@ import javax.swing.border.LineBorder;
 
 public class Cust_Dashboard extends JFrame {
 
-	Logger logger = Logger.getLogger(Cust_Dashboard.class);
+	final Logger logger = Logger.getLogger(Cust_Dashboard.class);
 	
 	private static final long serialVersionUID = 1L;
 
