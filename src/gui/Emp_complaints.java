@@ -33,7 +33,7 @@ public class Emp_complaints extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private int res = 0;
 	private int out = 0;
-	private JTable CompTable;
+	public JTable CompTable;//changed to public
 	private Customer_Enquiry ce;
 	
 	
@@ -168,5 +168,8 @@ public class Emp_complaints extends JFrame {
 		return out;
 	}
 	
-	
+	public JTable getTable()
+	{
+		return CompTable;
+	}
 }

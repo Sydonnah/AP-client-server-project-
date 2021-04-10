@@ -203,7 +203,7 @@ public class Emp_Response extends JFrame {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) 
 			{
-				System.out.println("Can not connect to the database");
+				JOptionPane.showMessageDialog(null,"Can not connect to the database","Connection Error",JOptionPane.ERROR_MESSAGE);
 			}
 			else
 			{
