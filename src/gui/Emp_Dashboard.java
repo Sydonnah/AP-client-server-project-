@@ -25,7 +25,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
+import org.apache.log4j.Logger;
+
 public class Emp_Dashboard extends JFrame {
+	
+	final Logger logger = Logger.getLogger(Emp_Dashboard.class);
 
 	private static final long serialVersionUID = 1L;
 	protected int res = 0; 
@@ -34,6 +38,8 @@ public class Emp_Dashboard extends JFrame {
 
 
 	public Emp_Dashboard() {
+		logger.info("Employee Dashboard loaded successfully");
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
 		setVisible(true);
@@ -65,10 +71,13 @@ public class Emp_Dashboard extends JFrame {
 		instrucPanel.add(instrucLabel);
 
 		try {
+			logger.warn("Connecting to database");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
-				System.out.println("Can not connect to the database");
+				//Can not connect to the database
+				logger.warn("Databse connection null");
 			}else {
+				logger.info("Database connection successful");
 				Statement stmt = con.createStatement();
 				String query = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Resolved'";
 				ResultSet rs = stmt.executeQuery(query);
@@ -81,6 +90,7 @@ public class Emp_Dashboard extends JFrame {
 				out = rs1.getInt(1);
 			}
 		}catch(SQLException sql) {
+			logger.error("Failed to connect to database");
 			sql.printStackTrace();
 		}
 
@@ -103,9 +113,10 @@ public class Emp_Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading Employee Complaints screen");
 					new Emp_complaints();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Employee Complaints screen");
 					e1.printStackTrace();
 				}
 			}
@@ -120,11 +131,14 @@ public class Emp_Dashboard extends JFrame {
 		Service2Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					logger.warn("Connecting to database");
 					String status = "";
 					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 					if(con == null) {
-						System.out.println("Can not connect to the database");
+						//Can not connect to the database
+						logger.warn("Database connection null");
 					}else{
+						logger.info("Database connection successful");
 						String read = "SELECT Emp_Status FROM employeeinformation WHERE Username = '" +Emp_LogIn.Username+"'" ;
 						PreparedStatement pstmt = con.prepareStatement(read);
 						ResultSet rs = pstmt.executeQuery();
@@ -135,13 +149,15 @@ public class Emp_Dashboard extends JFrame {
 					String compstatus = "Representative"; 
 					if (status.equals(compstatus)) {
 						dispose();
+						logger.warn("Loading Assignment Screen");
 						new Emp_assign();
 						}else {
+							logger.warn("Blocked Technician from loading Assignment screen");
 							JOptionPane.showMessageDialog(Service2Button, "Access Denied.....You are not a Representative ");
 						}
 
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					logger.error("Failed to connect to database");
 					e1.printStackTrace();
 				}
 			}
@@ -159,6 +175,8 @@ public class Emp_Dashboard extends JFrame {
 		Service3Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				logger.warn("Loading Response screen");
+				
 				new Emp_Response();
 			}
 		});
@@ -180,9 +198,10 @@ public class Emp_Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading Employee Login screen");
 					new Emp_LogIn();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Employee Login screen");
 					e1.printStackTrace();
 				}
 
@@ -200,6 +219,9 @@ public class Emp_Dashboard extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					dispose();
+					
+					logger.warn("Loading Employee Live chat");
+					
 					Client c1 = new Client();
 					c1.setTitle("Employee Live Chat");
 					c1.setVisible(true);

@@ -4,9 +4,12 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
 public class Server extends javax.swing.JFrame 
 {
-  
+	Logger logger = Logger.getLogger(Server.class);
+	
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("rawtypes")
 	ArrayList clientOutputStreams;
@@ -89,6 +92,7 @@ public class Server extends javax.swing.JFrame
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	logger.info("Server screen loaded successfully");
 
         jScrollPane1 = new javax.swing.JScrollPane();
         ta_chat = new javax.swing.JTextArea();
@@ -181,9 +185,15 @@ public class Server extends javax.swing.JFrame
     private void b_endActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_endActionPerformed
         try 
         {
+        	logger.warn("Stopping Server");
+        	
             Thread.sleep(5000);                 //5000 milliseconds is five second.
+            logger.info("Server stopped successfully");
         } 
-        catch(InterruptedException ex) {Thread.currentThread().interrupt();}
+        catch(InterruptedException ex) {
+        	logger.error("Error occurred when stopping server");
+        	Thread.currentThread().interrupt();
+        	}
         
         tellEveryone("Server:is stopping and all users will be disconnected.\n:Chat");
         ta_chat.append("Server stopping... \n");
@@ -192,13 +202,15 @@ public class Server extends javax.swing.JFrame
     }//GEN-LAST:event_b_endActionPerformed
 
     private void b_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_startActionPerformed
-        Thread starter = new Thread(new ServerStart());
+    	Thread starter = new Thread(new ServerStart());
         starter.start();
         
         ta_chat.append("Server started...\n");
     }//GEN-LAST:event_b_startActionPerformed
 
     private void b_usersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_usersActionPerformed
+    	logger.info("Displaying connected users");
+    	
         ta_chat.append("\n Online users : \n");
         for (String current_user : users)
         {
@@ -209,6 +221,8 @@ public class Server extends javax.swing.JFrame
     }//GEN-LAST:event_b_usersActionPerformed
 
     private void b_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_clearActionPerformed
+    	logger.info("Clearing server GUI logs from screen");
+    	
         ta_chat.setText("");
     }//GEN-LAST:event_b_clearActionPerformed
 
@@ -233,6 +247,7 @@ public class Server extends javax.swing.JFrame
 
             try 
             {
+            	logger.warn("Starting server");
                 ServerSocket serverSock = new ServerSocket(2222);
 
                 while (true) 
@@ -248,6 +263,7 @@ public class Server extends javax.swing.JFrame
             }
             catch (Exception ex)
             {
+            	logger.error("Failed to make connection");
                 ta_chat.append("Error making a connection. \n");
             }
         }

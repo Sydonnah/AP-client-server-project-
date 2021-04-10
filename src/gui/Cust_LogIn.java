@@ -23,10 +23,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import org.apache.log4j.Logger;
+
 import domain.Customer;
 
 
 public class Cust_LogIn extends JFrame {
+	
+	final Logger logger = Logger.getLogger(Cust_LogIn.class);
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel urnamepanel;
@@ -46,6 +51,8 @@ public class Cust_LogIn extends JFrame {
 	
 	
 	public Cust_LogIn() throws IOException {
+		logger.info("Customer login loaded successfully");
+		
 		cust = new Customer();
 		urnamepanel = new JPanel();
 		pwordpanel = new JPanel();
@@ -75,9 +82,10 @@ public class Cust_LogIn extends JFrame {
 				
 				dispose();
 				try {
+					logger.warn("Loading Home menu");
 					h = new Home();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Home menu");
 					e1.printStackTrace();
 				}
 			}
@@ -156,9 +164,10 @@ public class Cust_LogIn extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading signup screen");
 					new Signup();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading signup screen");
 					e1.printStackTrace();
 				}
 			}
@@ -179,10 +188,12 @@ public class Cust_LogIn extends JFrame {
 					JOptionPane.showMessageDialog(Login, "Field can not be empty");
 				} else{
 						try {
+							logger.warn("Attempting to connect to database");
 							Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 							if(con == null) {
-								System.out.println("Can not connect to the database");
+								// Cannot connect to database
 							}else {
+								logger.info("Connection to database successful");
 								String read = "SELECT * FROM customerinformation WHERE Username = ? and Password = ?" ;
 								PreparedStatement pstmt = con.prepareStatement(read);
 								pstmt.setString(1, cust.getUser());
@@ -191,12 +202,14 @@ public class Cust_LogIn extends JFrame {
 								if(rs.next()) {
 									dispose();
 									try {
+										logger.warn("Loading Customer Dashboard");
 										new Cust_Dashboard();
 									} catch (Exception e1) {
-										// TODO Auto-generated catch block
+										logger.error("Error loading Customer Dashboard");
 										e1.printStackTrace();
 									}
 								}else {
+									logger.info("Login failed, credential mismatch");
 									JOptionPane.showMessageDialog(Login, "Credentials do not match database");
 									urname.setText("");
 									urname.requestFocus();
@@ -204,6 +217,7 @@ public class Cust_LogIn extends JFrame {
 								}
 							}
 						} catch (SQLException sql) {
+							logger.error("Failed to connect to database");
 							sql.printStackTrace();
 						}
 				}			

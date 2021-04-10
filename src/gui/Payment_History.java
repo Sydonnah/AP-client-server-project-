@@ -16,6 +16,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
+
 import domain.Customer_Account;
 
 import javax.swing.JButton;
@@ -30,12 +32,15 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class Payment_History extends JFrame {
+	
+	Logger logger = Logger.getLogger(Payment_History.class);
 
 	
 	private static final long serialVersionUID = 1L;
 	private Customer_Account ca;
 	
 	public Payment_History() throws IOException{
+		logger.info("Payment History loaded successfully");
 		ca = new Customer_Account();
 		getContentPane().setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
@@ -77,9 +82,10 @@ public class Payment_History extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading Customer Dashboard");
 					Cust_Dashboard cd = new Cust_Dashboard();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Customer Dashboard");
 					e1.printStackTrace();
 				}
 			}
@@ -111,8 +117,11 @@ public class Payment_History extends JFrame {
 		try {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
-				System.out.println("Can not connect to the database");
+				//Can not connect to the database
+				logger.warn("Database connection null");
 			}else {
+				logger.info("Payment History loaded successfully");
+				logger.info("Displaying payment history details");
 				String read = "SELECT Acc_num FROM customerinformation WHERE Username = '" +Cust_LogIn.urname.getText()+"'" ;
 				PreparedStatement pstmt = con.prepareStatement(read);
 				ResultSet rs = pstmt.executeQuery();
@@ -131,6 +140,7 @@ public class Payment_History extends JFrame {
 				}
 			}
 		}catch(SQLException sql) {
+			logger.error("Failed to connect to database");
 			sql.printStackTrace();
 		}catch(Exception e ) {
 			e.printStackTrace();

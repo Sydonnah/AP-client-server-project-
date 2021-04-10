@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
 public class CreateDatabase {
 	private Connection con = null;
 	
@@ -12,9 +14,12 @@ public class CreateDatabase {
 	}
 	
 	public boolean createTable() {
+		Logger logger = Logger.getLogger(CreateDatabase.class);
+		
 		String createdb = "Create Database ms_cablevision";
 		String dbchoice = "Use ms_cablevision";
 		
+		logger.info("Creating Customer table");
 		String Customer =  
 				"Create TABLE customerinformation ("
 				+ "Acc_num INT(50) AUTO_INCREMENT,\n"
@@ -26,6 +31,7 @@ public class CreateDatabase {
 				+ "Password VARCHAR(50),\n"
 				+ "PRIMARY KEY (Acc_num));";
 		
+		logger.info("Creating Enquiries table");
 		String CustomerEnquiry = 
 				"Create TABLE enquiries("
 				+ "Enquiry_ID INT(50) AUTO_INCREMENT,\n"
@@ -44,6 +50,7 @@ public class CreateDatabase {
 				+ "ON UPDATE CASCADE,\n"
 				+ "PRIMARY KEY(Enquiry_ID));";
 		
+		logger.info("Creating Account Status table");
 		String CustomerAcc_Stat = 
 				"Create TABLE account_status("
 				+ "Invoice_ID INT(50) AUTO_INCREMENT,"
@@ -56,6 +63,7 @@ public class CreateDatabase {
 				+ "REFERENCES customerinformation (Acc_num), \n"
 				+ "PRIMARY KEY (Invoice_ID));";
 		
+		logger.info("Creating Employee Information table");
 		String Employee =
 				"Create TABLE employeeinformation("
 				+ "Emp_Id INT(50) AUTO_INCREMENT, \n"
@@ -81,11 +89,13 @@ public class CreateDatabase {
 			stmt.execute(CustomerEnquiry,0);
 			stmt.executeUpdate(index);
 			
-			System.out.println("Database Created.....");
+			logger.info("Database Created successfully");
+
 			return true;
 		}catch(SQLException sql) {
 			sql.printStackTrace();
-			System.err.println("Failed to create database....");
+			
+			logger.error("Failed to create Database");
 		
 		return false;
 		}

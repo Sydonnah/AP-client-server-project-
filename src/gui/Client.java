@@ -10,8 +10,13 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 
+import org.apache.log4j.Logger;
+
 public class Client extends javax.swing.JFrame 
 {
+	
+	Logger logger = Logger.getLogger(Client.class);
+	
     String username, address = "localhost";
     ArrayList<String> users = new ArrayList();
     int port = 2222;
@@ -58,10 +63,13 @@ public class Client extends javax.swing.JFrame
         String bye = (username + ": :Disconnect");
         try
         {
+        	logger.warn("Sending disconnection message");
             writer.println(bye); 
-            writer.flush(); 
+            writer.flush();
+            logger.info("Disconnection message sent successfully");
         } catch (Exception e) 
         {
+        	logger.error("Failed to send disconnection message");
             ta_chat.append("Could not send Disconnect message.\n");
         }
     }
@@ -72,9 +80,12 @@ public class Client extends javax.swing.JFrame
     {
         try 
         {
+        	logger.warn("Disconnecting user");
             ta_chat.append("Disconnected.\n");
             sock.close();
+            logger.info("Disconnected user successful");
         } catch(Exception ex) {
+        	logger.error("Failed to disconnect user");
             ta_chat.append("Failed to disconnect. \n");
         }
         isConnected = false;
@@ -133,6 +144,8 @@ public class Client extends javax.swing.JFrame
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	
+    	logger.info("Live chat loaded successfully");
 
 
         lb_address = new javax.swing.JLabel();
@@ -226,6 +239,7 @@ public class Client extends javax.swing.JFrame
         b_send.setText("SEND");
         b_send.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	logger.info("Sending message");
                 b_sendActionPerformed(evt);
             }
         });
@@ -326,16 +340,19 @@ public class Client extends javax.swing.JFrame
 
             try 
             {
+            	logger.warn("Connecting user to chat");
                 sock = new Socket(address, port);
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
                 writer.println(username + ":has connected.:Connect");
                 writer.flush(); 
-                isConnected = true; 
+                isConnected = true;
+                logger.info("User connected to chat successfully");
             } 
             catch (Exception ex) 
             {
+            	logger.error("Failed to connect user to chat");
                 ta_chat.append("Cannot Connect! Try Again. \n");
                 tf_username.setEditable(true);
             }
@@ -344,6 +361,7 @@ public class Client extends javax.swing.JFrame
             
         } else if (isConnected == true) 
         {
+        	logger.info("User already connected");
             ta_chat.append("You are already connected. \n");
         }
     }//GEN-LAST:event_b_connectActionPerformed
@@ -369,6 +387,7 @@ public class Client extends javax.swing.JFrame
 
             try 
             {
+            	logger.warn("Attempting annoymous user connection");
                 sock = new Socket(address, port);
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
@@ -376,9 +395,11 @@ public class Client extends javax.swing.JFrame
                 writer.println(anon + ":has connected.:Connect");
                 writer.flush(); 
                 isConnected = true; 
+                logger.info("Annonymous user connection successful");
             } 
             catch (Exception ex) 
             {
+            	logger.error("Failed to connect annonymous user");
                 ta_chat.append("Cannot Connect! Try Again. \n");
                 tf_username.setEditable(true);
             }
@@ -387,6 +408,7 @@ public class Client extends javax.swing.JFrame
             
         } else if (isConnected == true) 
         {
+        	logger.info("Already connected");
             ta_chat.append("You are already connected. \n");
         }        
     }//GEN-LAST:event_b_anonymousActionPerformed
@@ -398,9 +420,12 @@ public class Client extends javax.swing.JFrame
             tf_chat.requestFocus();
         } else {
             try {
+            	
                writer.println(username + ":" + tf_chat.getText() + ":" + "Chat");
                writer.flush(); // flushes the buffer
+               logger.info("Message sent Successfully");
             } catch (Exception ex) {
+            	logger.error("Failed to send message");
                 ta_chat.append("Message was not sent. \n");
             }
             tf_chat.setText("");
