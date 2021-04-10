@@ -39,18 +39,12 @@ public class Emp_Response extends JFrame {
 	private int out = 0;
 	private Customer_Enquiry ce;
 	
-	private JTextArea txtEmpResponse = new JTextArea(20, 20);
+	
 	private JTable CompTable;
 	
 	int searchEmpID=  ce.geteID();
-	public String getResponse() {
-		return response;
-	}
-
-
-	public void setResponse(String response) {
-		this.response = response;
-	}
+	
+	
 
 
 	public Emp_Response() {
@@ -178,6 +172,7 @@ public class Emp_Response extends JFrame {
 		String response="";
 		int enqID;
 		String Acc_num,complaint,description,subdate,techAssigned;
+		
 		int index = CompTable.getSelectedRow();
 		TableModel model = CompTable.getModel();
 		
@@ -219,4 +214,8 @@ public class Emp_Response extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }
+
+
