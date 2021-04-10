@@ -19,6 +19,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
+
 import domain.Customer_Enquiry;
 import domain.Customer;
 
@@ -31,6 +33,8 @@ import java.awt.event.ActionEvent;
 
 public class Emp_complaints extends JFrame {
 	
+	final Logger logger = Logger.getLogger(Emp_complaints.class);
+	
 	private static final long serialVersionUID = 1L;
 	private int res = 0;
 	private int out = 0;
@@ -40,6 +44,8 @@ public class Emp_complaints extends JFrame {
 	
 	
 	public Emp_complaints() {
+		logger.info("Employee Complaints loaded successfully");
+		
 		c = new Customer();
 		ce = new Customer_Enquiry();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
@@ -73,10 +79,13 @@ public class Emp_complaints extends JFrame {
 		instrucPanel.add(instrucLabel);
 		
 		try {
+			logger.warn("Connecting to database");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
-				System.out.println("Can not connect to the database");
+				//Can not connect to the database
+				logger.warn("Database connection null");
 			}else {
+				logger.info("Database connection successful");
 				Statement stmt = con.createStatement();
 				String query = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Resolved'";
 				ResultSet rs = stmt.executeQuery(query);
@@ -89,6 +98,7 @@ public class Emp_complaints extends JFrame {
 				out = rs1.getInt(1);
 				}
 			}catch(SQLException sql) {
+				logger.error("Failed to connecto to database");
 				sql.printStackTrace();
 			}
 		
@@ -118,10 +128,13 @@ public class Emp_complaints extends JFrame {
 		tm.addColumn("Date of Submission");
 		tm.addColumn("Technician Assigned");
 		try {
+			logger.warn("Connecting to database");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
-				System.out.println("Can not connect to the database");
+				//Cannot connect to the database
+				logger.warn("Database connection null");
 			}else {
+				logger.info("Database connection successful");
 				String Tech_assigned = "";
 				String get = "SELECT c.Acc_num , c.First_Name , c.Last_Name , c.Contact_Num, e.Enquiry_ID,"
 						+ "e.Com_Type,e.Com_Description,e.Com_Date,e.Emp_Id FROM customerinformation AS c LEFT JOIN enquiries AS e on c.Acc_num = e.Acc_num";
@@ -140,8 +153,10 @@ public class Emp_complaints extends JFrame {
 					Tech_assigned = rs.getString(9);
 					tm.addRow(new Object[] {c.getAcc_num(),c.getFname(),c.getLname(),c.getNumber(),ce.geteID(),ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(), Tech_assigned});	
 			}
+				logger.info("Displaying complaints");
 			}
 			}catch(SQLException sql) {
+				logger.error("Failed to connect to database");
 				sql.printStackTrace();
 			}
 		CompScrollPane.setViewportView(CompTable);
@@ -155,9 +170,10 @@ public class Emp_complaints extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				try {
+					logger.warn("Loading Employee Dashboard");
 					new Emp_Dashboard();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Employee Dashboard");
 					e1.printStackTrace();
 				}
 			}
