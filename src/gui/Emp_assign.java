@@ -21,12 +21,17 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.log4j.Logger;
+
 import domain.Customer_Enquiry;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Emp_assign extends JFrame {
+	
+	final Logger logger = Logger.getLogger(Emp_assign.class);
 
 	private static final long serialVersionUID = 1L;
 	private int res = 0;
@@ -37,6 +42,7 @@ public class Emp_assign extends JFrame {
 
 
 	public Emp_assign() {
+		logger.info("Assignments screen loaded successfully");
 		ce = new Customer_Enquiry();
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Carlisha Nicholson\\Documents\\GitHub\\AP-client-server-project-\\cable.jpg"));
 		setTitle("MICRO-STAR CABLE VISION");
@@ -69,10 +75,13 @@ public class Emp_assign extends JFrame {
 		instrucPanel.add(instrucLabel);
 
 		try {
+			logger.warn("Connecting to database");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
-				System.out.println("Can not connect to the database");
+				//Can not connect to the database
+				logger.warn("Database connection null");
 			}else {
+				logger.info("Database connection successful");
 				Statement stmt = con.createStatement();
 				String query = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Resolved'";
 				ResultSet rs = stmt.executeQuery(query);
@@ -85,6 +94,7 @@ public class Emp_assign extends JFrame {
 				out = rs1.getInt(1);
 			}
 		}catch(SQLException sql) {
+			logger.error("Failed to connect to Database");
 			sql.printStackTrace();
 		}
 
@@ -110,10 +120,13 @@ public class Emp_assign extends JFrame {
 		tm.addColumn("Technician assigned");
 
 		try {
+			logger.warn("Connecting to database");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
-				System.out.println("Can not connect to the database");
+				//Can not connect to the database
+				logger.warn("Database connection null");
 			}else {
+				logger.info("Database connection successful");
 				int Acc_num = 0;
 				String Tech = " ";
 				String get = "SELECT Enquiry_ID, Acc_num,Com_Type,Com_Description,Com_Date, Emp_Id FROM enquiries WHERE Emp_Id IS null";
@@ -129,8 +142,10 @@ public class Emp_assign extends JFrame {
 					Tech = rs.getString(6);
 					tm.addRow(new Object[] {ce.geteID(),Acc_num,ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(),Tech});	
 				}
+				logger.info("Displaying listing for assignments");
 			}
 		}catch(SQLException sql) {
+			logger.error("Failed to connect to database");
 			sql.printStackTrace();
 		}
 		CompScrollPane.setViewportView(CompTable);
@@ -147,22 +162,26 @@ public class Emp_assign extends JFrame {
 				String Techid = (String) CompTable.getModel().getValueAt(row,col);
 				int val = (Integer) CompTable.getModel().getValueAt(row,0);
 				try {
+					logger.warn("Connecting to database");
 					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 					if(con == null) {
-						System.out.println("Can not connect to the database");
+						//Can not connect to the database
+						logger.warn("Database connection null");
 					}else {
+						logger.info("Database connection successful");
 						String get = "UPDATE enquiries SET Emp_Id = '"+Techid+"' WHERE Enquiry_Id = '" +val+"'";
 						Statement pstmt1 = con.createStatement();
 						pstmt1.executeUpdate(get);
 						dispose();
 						new Emp_assign();
 						JOptionPane.showMessageDialog(AddButton, "Technician Assigned Successfully");
+						logger.info("Technician assigned successfully");
 					}
 				} catch (ClassCastException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
+					logger.error("Failed to assign technician");
 					e1.printStackTrace();
 				}catch (Exception e1) {
 					e1.printStackTrace();
@@ -184,6 +203,7 @@ public class Emp_assign extends JFrame {
 		BackButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+				logger.warn("Loading Employee Dashboard");
 				new Emp_Dashboard();
 			}
 		});
