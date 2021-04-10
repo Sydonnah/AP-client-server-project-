@@ -18,6 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import org.apache.log4j.Logger;
+
 import domain.Customer;
 
 public class Signup extends JFrame{
@@ -52,6 +55,9 @@ public class Signup extends JFrame{
 	
 
 	public Signup() {
+		
+		Logger logger = Logger.getLogger(Signup.class);
+		
 		cust = new Customer();
 		fnpanel = new JPanel();
 		lnpanel = new JPanel();
@@ -98,9 +104,10 @@ public class Signup extends JFrame{
 				// TODO Auto-generated method stub
 				dispose();
 				try {
+					logger.warn("Loading Customer Login screen");
 					new Cust_LogIn();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Customer Login");
 					e1.printStackTrace();
 				}
 				
@@ -175,19 +182,23 @@ public class Signup extends JFrame{
 					JOptionPane.showMessageDialog(RPword, "Password mismatch, please try again");
 				}else {
 					try {
+						logger.warn("Connecting to database");
 						Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 						if(con == null) {
-							System.out.println("Can not connect to the database");
+							// Cannot connect to the database
 						}else {
 							String add = "INSERT INTO customerinformation (Acc_num, First_Name,Last_Name,Contact_Num,Email,Username,Password) VALUES ("
 							+cust.getAcc_num()+",'"+Fname.getText()+"','"+Lname.getText()+"','"+contact.getText()+"','"+Email.getText()+"','"+Username.getText()+"','"+Pword.getText()+"')";    
 								Statement stmt = con.createStatement();
 								stmt.executeUpdate(add);
+								logger.info("Sign up successful");
 									JOptionPane.showMessageDialog(button, "Sign up Sucessful");
 									dispose();
+									logger.warn("Loading Customer Login");
 									new Cust_LogIn();
 						}
 					}catch (SQLException sql) {
+						logger.error("Error interacting with database");
 						sql.printStackTrace();
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
