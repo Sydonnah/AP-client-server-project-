@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +29,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import database.CreateDatabase;
 import domain.Customer_Enquiry;
 
 import javax.swing.JTextField;
@@ -42,7 +44,8 @@ public class Emp_Response extends JFrame {
 	
 	private JTable CompTable;
 	
-	int searchEmpID=  ce.geteID();
+	ResultSet result;
+	private int searchEmpID;
 	
 	
 
@@ -95,18 +98,28 @@ public class Emp_Response extends JFrame {
 		tm.addColumn("Technician Assigned");
 		tm.addColumn("Technican Response");
 		
+		
 		try {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 			if(con == null) {
 				System.out.println("Can not connect to the database");
 			}else {
+				
+				//Recovering Employee ID to facilitate narrowing of details according to Emp_ID
+				String EmpIDQuery= "SELECT Emp_Id FROM employeeinformation WHERE Username ="+Emp_LogIn.Username;
+				Statement stat = con.createStatement();
+				result= stat.executeQuery(EmpIDQuery);
+				result.next();
+				searchEmpID= result.getInt(1);
+				
+				//Recovers All resolved queries
 				Statement stmt = con.createStatement();
-				String query = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Resolved'";
+				String query = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Resolved' AND Emp_Id ="+searchEmpID;
 				ResultSet rs = stmt.executeQuery(query);
 				rs.next();
 				res = rs.getInt(1);
 				
-				String query1 = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Outstanding'";
+				String query1 = "SELECT count(*) FROM enquiries WHERE Enq_status = 'Outstanding' AND Emp_Id = "+searchEmpID;
 				ResultSet rs1 = stmt.executeQuery(query1);
 				rs1.next();
 				out = rs1.getInt(1);
@@ -134,6 +147,14 @@ public class Emp_Response extends JFrame {
 			{
 				sql.printStackTrace();
 			}
+		catch(NullPointerException e)
+		{
+			e.printStackTrace();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		
 		JLabel TaskLabel = new JLabel("Complaints - Resolved:" +res+ "  Outstanding: "+out);
 		TaskLabel.setHorizontalTextPosition(SwingConstants.LEADING);
@@ -170,13 +191,13 @@ public class Emp_Response extends JFrame {
 	private void OutstandingEnquiryTableMouseClicked(java.awt.event.MouseEvent event1)
 	{
 		String response="";
-		int enqID;
+		String enqID;
 		String Acc_num,complaint,description,subdate,techAssigned;
 		
 		int index = CompTable.getSelectedRow();
 		TableModel model = CompTable.getModel();
 		
-		enqID= Integer.parseInt(model.getValueAt(index,0).toString());
+		enqID= (String)model.getValueAt(index,0);
 		Acc_num= model.getValueAt(index, 1).toString();
 		complaint= model.getValueAt(index,2).toString();
 		description=model.getValueAt(index,3).toString();
@@ -187,7 +208,7 @@ public class Emp_Response extends JFrame {
 				"\nComplaint Type: "+complaint+"\nComplaint Description: "+description+
 				"\n Date of Complaint Submission: "+subdate+"\nTechnician Assigned: "+techAssigned+"\nAdd Response below";
 		
-		//JScrollPane responseScroll = new JScrollPane(txtEmpResponse);
+		
 		
 		response=JOptionPane.showInputDialog(null,tableData,"Enter Employee Response");
 		
@@ -214,8 +235,7 @@ public class Emp_Response extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	
-	
-}
+		
 
+}
 
