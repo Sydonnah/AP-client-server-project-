@@ -22,7 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
+
 public class Emp_LogIn extends JFrame{
+	final Logger logger = Logger.getLogger(Emp_LogIn.class);
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel urnamepanel;
 	private JPanel pwordpanel;
@@ -64,9 +68,10 @@ public class Emp_LogIn extends JFrame{
 				// TODO Auto-generated method stub
 				dispose();
 				try {
+					logger.warn("Loading Home Menu");
 					h = new Home();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					logger.error("Error loading Home Menu");
 					e1.printStackTrace();
 				}
 				
@@ -149,10 +154,13 @@ public class Emp_LogIn extends JFrame{
 					JOptionPane.showMessageDialog(Login, "Field can not be empty");
 				} else{
 						try {
+							logger.warn("Connecting to database");
 							Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
 							if(con == null) {
-								System.out.println("Can not connect to the database");
+								//Can not connect to the database
+								logger.warn("Database connection null");
 							}else {
+								logger.info("Database connection successful");
 								String read = "SELECT * FROM employeeinformation WHERE Username = ? and Password = ?" ;
 								PreparedStatement pstmt = con.prepareStatement(read);
 								pstmt.setString(1, urname.getText());
@@ -161,9 +169,10 @@ public class Emp_LogIn extends JFrame{
 								if(rs.next()) {
 									dispose();
 									try {
+										logger.warn("Loading Employee Dashboard");
 										new Emp_Dashboard();
 									} catch (Exception e1) {
-										// TODO Auto-generated catch block
+										logger.error("Error loading Employee Dashboard");
 										e1.printStackTrace();
 									}
 								}else {
@@ -174,6 +183,7 @@ public class Emp_LogIn extends JFrame{
 								}
 							}
 						} catch (SQLException sql) {
+							logger.error("Failed to connect to database");
 							sql.printStackTrace();
 						}
 				}			
