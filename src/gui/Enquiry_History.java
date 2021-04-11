@@ -112,6 +112,7 @@ public class Enquiry_History extends JFrame {
 		tm.addColumn("Complaint");
 		tm.addColumn("Description");
 		tm.addColumn("Date of Submission");
+		tm.addColumn("Response");
 		try {
 			logger.warn("Connecting to database");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ms_cablevision", "root","");
@@ -128,7 +129,7 @@ public class Enquiry_History extends JFrame {
 				while(rs.next()) {
 					Acc_num = rs.getInt(1);
 				}
-				String get = "SELECT Enquiry_ID, Com_Type,Com_Description,Com_Date FROM enquiries WHERE Acc_num = '" +Acc_num+ "'";
+				String get = "SELECT Enquiry_ID, Com_Type,Com_Description,Com_Date,Emp_Response FROM enquiries WHERE Acc_num = '" +Acc_num+ "'";
 				PreparedStatement pstmt1 = con.prepareStatement(get);
 				ResultSet rs1 = pstmt1.executeQuery();
 				
@@ -136,8 +137,9 @@ public class Enquiry_History extends JFrame {
 					ce.seteID(rs1.getInt(1));
 					ce.setCom_type(rs1.getString(2));
 					ce.setCom_Description(rs1.getString(3));
-					ce.setCom_Date(rs1.getString(4));		
-					tm.addRow(new Object[] {ce.geteID(),ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date()});
+					ce.setCom_Date(rs1.getString(4));	
+					ce.setEmp_Response(rs1.getString(5));
+					tm.addRow(new Object[] {ce.geteID(),ce.getCom_type(),ce.getCom_Description(),ce.getCom_Date(),ce.getEmp_Response()});
 				}
 			}
 		}catch(SQLException sql) {
